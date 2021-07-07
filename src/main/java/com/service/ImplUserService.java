@@ -1,6 +1,9 @@
 package com.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -9,28 +12,39 @@ import com.model.User;
 @Service
 public class ImplUserService implements UserService {
 
+	private Map<Integer, User> users = new HashMap<>();
+	private int nextId = 1;
+	
 	@Override
 	public User findOne(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return users.get(id);
 	}
 
 	@Override
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>(users.values());
 	}
 
 	@Override
 	public User save(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		if(user.getId() == 0) {
+			user.setId(nextId);
+			nextId += 1;
+		}
+		
+		users.put(user.getId(), user);
+		
+		return user;
 	}
 
 	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
+	public User delete(int id) {
+		if(!users.containsKey(id)) {
+			throw new IllegalArgumentException("Tried to"
+					+ " remove non-existing user.");
+		}
 		
+		return users.remove(id);
 	}
 
 }

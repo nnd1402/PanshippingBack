@@ -1,50 +1,43 @@
-package com.service;
+package com.example.demo.service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.model.User;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 
 @Service
-public class ImplUserService implements UserService {
+public class JpaUserServiceImpl implements UserService {
 
-	private Map<Integer, User> users = new HashMap<>();
-	private int nextId = 1;
+	@Autowired
+	private UserRepository userRepository;
+	
+	 @Override
+	 public Optional<User> findById(Long id) {
+
+		 return userRepository.findById(id);
+	}
 	
 	@Override
-	public User findOne(int id) {
-		return users.get(id);
-	}
-
-	@Override
 	public List<User> findAll() {
-		return new ArrayList<>(users.values());
+		
+		return userRepository.findAll();
 	}
 
 	@Override
 	public User save(User user) {
-		if(user.getId() == 0) {
-			user.setId(nextId);
-			nextId += 1;
-		}
-		
-		users.put(user.getId(), user);
-		
-		return user;
+		return userRepository.save(user);
 	}
 
 	@Override
-	public User delete(int id) {
-		if(!users.containsKey(id)) {
-			throw new IllegalArgumentException("Tried to"
-					+ " remove non-existing user.");
-		}
-		
-		return users.remove(id);
+	public void delete(Long id) {
+		userRepository.deleteById(id);
 	}
+
+	
+	
 
 }

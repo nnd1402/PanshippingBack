@@ -1,16 +1,18 @@
-package com.model;
+package com.example.demo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user")
+@Table(name = "tbl_user")
 public class User {
 	
 	@Id
-	private int id;
+	@GeneratedValue
+	private Long id;
 	
 	@Column(name = "Firstname")
 	private String firstName;
@@ -28,20 +30,18 @@ public class User {
 	private String password;
 	
 	public User() {
-		super();
 	}
 
 	public User(String username, String password) {
-		super();
 		this.username = username;
 		this.password = password;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

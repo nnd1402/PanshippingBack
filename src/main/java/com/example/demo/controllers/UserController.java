@@ -26,8 +26,8 @@ public class UserController {
 	
 
 	@RequestMapping(method=RequestMethod.GET)
-	ResponseEntity<List<User>> getUser(){
-		List<User> users = userService.findAll();
+	ResponseEntity<List<UserRegistrationDTO>> getUser(){
+		List<UserRegistrationDTO> users = userService.findAll();
 		
 		if(users == null || users.isEmpty()){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -59,8 +59,8 @@ public class UserController {
 	
 	@RequestMapping(value="/addUser", method=RequestMethod.POST,
 					consumes="application/json")
-	public ResponseEntity<User> add(@RequestBody User newUser){
-		User savedUser = userService.save(newUser);
+	public ResponseEntity<UserRegistrationDTO> add(@RequestBody UserRegistrationDTO newUser){
+		UserRegistrationDTO savedUser = userService.save(newUser);
 		
 		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 	}
@@ -69,15 +69,15 @@ public class UserController {
 	@RequestMapping(method=RequestMethod.PUT,
 			value="/{id}",
 			consumes="application/json")
-	public ResponseEntity<User> edit(
-			@RequestBody User user,
+	public ResponseEntity<UserRegistrationDTO> edit(
+			@RequestBody UserRegistrationDTO userDTO,
 			@PathVariable Long id){
 		
-		if(!id.equals(user.getId())){
+		if(!id.equals(userDTO.getId())){
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
-		User persisted = userService.save(user);
+		UserRegistrationDTO persisted = userService.save(userDTO);
 		
 		return new ResponseEntity<>(persisted,HttpStatus.OK);
 	}

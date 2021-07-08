@@ -7,7 +7,7 @@ import com.example.demo.model.User;
 
 public interface UserService {
 	UserRegistrationDTO getUser(Long id);
-	List<User> findAll();
-	User save(User user);
+	List<UserRegistrationDTO> findAll();
+	UserRegistrationDTO save(UserRegistrationDTO userDto);
 	void delete(Long id);
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,13 +29,22 @@ public class UserServiceImpl implements UserService {
 		}
 	
 	@Override
-	public List<User> findAll() {
-		return userRepository.findAll();
+	public List<UserRegistrationDTO> findAll() {
+		List<UserRegistrationDTO> result = new ArrayList<>();
+		List<User> users = userRepository.findAll();
+		
+		for(User user: users) {
+			result.add(new UserRegistrationDTO(user));
+		}
+		return result;
 	}
 
 	@Override
-	public User save(User user) {
-		return userRepository.save(user);
+	public UserRegistrationDTO save(UserRegistrationDTO userDto) {
+		User user = new User(userDto);
+		User databaseUser = userRepository.save(user);
+		UserRegistrationDTO resultDto = new UserRegistrationDTO(databaseUser);
+		return resultDto;
 	}
 
 	@Override

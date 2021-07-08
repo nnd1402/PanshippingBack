@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.example.demo.dto.UserRegistrationDTO;
+
 @Entity
 @Table(name = "tbl_user")
 public class User {
@@ -38,6 +40,16 @@ public class User {
 	public User(String username, String password) {
 		this.username = username;
 		this.password = password;
+	}
+	
+	public User(UserRegistrationDTO userDTO) {
+		this.id = userDTO.getId();
+        this.firstName = userDTO.getFirstName();
+        this.lastName = userDTO.getLastName();
+        this.email = userDTO.getEmail();
+        this.address = userDTO.getAddress();
+        this.username = userDTO.getUsername();
+        this.password = userDTO.getPassword();
 	}
 
 	public Long getId() {
@@ -95,6 +107,8 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
 
 	@Override
 	public String toString() {

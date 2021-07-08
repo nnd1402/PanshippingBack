@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.UserRegistrationDTO;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
@@ -16,10 +17,14 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	
 	 @Override
-	 public User getUser(Long id ) {
+	 public UserRegistrationDTO getUser(Long id ) {
 			Optional<User> userResponse =  userRepository.findById(id);
-			User user = userResponse.get();
-			return user;
+			
+			if (userResponse.isPresent()) {
+				return  new UserRegistrationDTO(userResponse.get());
+			} else {
+				return null;
+			}
 		}
 	
 	@Override

@@ -10,20 +10,20 @@ import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 
 @Service
-public class JpaUserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
 	
 	 @Override
-	 public Optional<User> findById(Long id) {
-
-		 return userRepository.findById(id);
-	}
+	 public User getUser(Long id ) {
+			Optional<User> userResponse =  userRepository.findById(id);
+			User user = userResponse.get();
+			return user;
+		}
 	
 	@Override
 	public List<User> findAll() {
-		
 		return userRepository.findAll();
 	}
 

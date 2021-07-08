@@ -1,8 +1,10 @@
 package com.example.demo.controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,56 +13,75 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping(path="/user")
 public class UserController {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 	
-	//Get All Users
-	@GetMapping(value = "/getAllUsers")
-	public @ResponseBody Iterable<User> getAllUsers() {
-	    return userRepository.findAll();
+
+	@RequestMapping(method=RequestMethod.GET)
+	ResponseEntity<List<User>> getUser(){
+		List<User> users = userService.findAll();
+		
+		if(users == null || users.isEmpty()){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 	
-	//Add User
-	@PostMapping(value = "/addUsers")
-	User newUser(@RequestBody User newUser) {
-	    return userRepository.save(newUser);
+	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	ResponseEntity<User> getUser(@PathVariable Long id){
+		User user = userService.getUser(id);
+		if(user==null){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(user,HttpStatus.OK);
 	}
 	
-	//Get Single User
-	 @GetMapping("/getUserById/{id}")
-	 Optional<User> findOneUser(@PathVariable Long id) {
-	    return userRepository.findById(id);
-	 }
-	 
-	 //Update user(put)
-	 @PutMapping("/employees/{id}")
-	 public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long id,
-	  @RequestBody User userDetails) {
-	  User user = userRepository.findById(id);
-	  
-	  user.setFirstName(userDetails.getFirstName());
-	  user.setEmail(userDetails.getEmail());
-	  user.setLastName(userDetails.getLastName());
-	  user.setUsername(userDetails.getUsername());
-	  user.setPassword(userDetails.getPassword());
-	  
-	  final User updatedUser = userRepository.save(user);
-	  return ResponseEntity.ok(updatedUser);
-	 }
-	 
-	 //Delete User
-	 @DeleteMapping("/deleteUserById/{id}")
-	  void deleteUser(@PathVariable Long id) {
-	    userRepository.deleteById(id);
-	  }
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	ResponseEntity<User> delete(@PathVariable Long id){
+		if(userService.getUser(id) == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+		userService.delete(id);
+				
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@RequestMapping(value="/addUser", method=RequestMethod.POST,
+					consumes="application/json")
+	public ResponseEntity<User> add(@RequestBody User newUser){
+		User savedUser = userService.save(newUser);
+		
+		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+	}
+	
+	
+	@RequestMapping(method=RequestMethod.PUT,
+			value="/{id}",
+			consumes="application/json")
+	public ResponseEntity<User> edit(
+			@RequestBody User user,
+			@PathVariable Long id){
+		
+		if(!id.equals(user.getId())){
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+		User persisted = userService.save(user);
+		
+		return new ResponseEntity<>(persisted,HttpStatus.OK);
+	}
 }

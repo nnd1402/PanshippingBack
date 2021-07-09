@@ -26,7 +26,7 @@ public class UserController {
 	
 
 	@RequestMapping(method=RequestMethod.GET)
-	ResponseEntity<List<UserRegistrationDTO>> getUser(){
+	ResponseEntity<List<UserRegistrationDTO>> getUsers(){
 		List<UserRegistrationDTO> users = userService.findAll();
 		
 		if(users == null || users.isEmpty()){

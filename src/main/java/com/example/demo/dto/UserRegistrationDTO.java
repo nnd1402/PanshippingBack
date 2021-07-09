@@ -9,6 +9,8 @@ public class UserRegistrationDTO {
 	private String lastName;
 	private String email;
 	private String address;
+	private String country;
+	private int phone;
 	private String username;
 	private String password;
 
@@ -22,6 +24,8 @@ public class UserRegistrationDTO {
         this.lastName = user.getLastName();
         this.email = user.getEmail();
         this.address = user.getAddress();
+        this.country = user.getCountry();
+        this.phone = user.getPhone();
         this.username = user.getUsername();
         this.password = user.getPassword();
     }
@@ -58,6 +62,23 @@ public class UserRegistrationDTO {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+	
+	public String getCountry() {
+		return this.country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public int getPhone() {
+		return this.phone;
+	}
+
+	public void setPhone(int phone) {
+		this.phone = phone;
+	}
+
 	public String getUsername() {
 		return this.username;
 	}

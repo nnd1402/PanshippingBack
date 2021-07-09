@@ -24,6 +24,12 @@ public class User {
 	
 	@Column(name = "Address")
 	private String address;
+	
+	@Column(name = "Country")
+	private String country;
+	
+	@Column(name = "Phone")
+	private int phone;
 
 	@Column(name = "Email")
 	private String email;
@@ -48,6 +54,8 @@ public class User {
         this.lastName = userDTO.getLastName();
         this.email = userDTO.getEmail();
         this.address = userDTO.getAddress();
+        this.country = userDTO.getCountry();
+        this.phone = userDTO.getPhone();
         this.username = userDTO.getUsername();
         this.password = userDTO.getPassword();
 	}
@@ -82,6 +90,22 @@ public class User {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+	
+	public String getCountry() {
+		return this.country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public int getPhone() {
+		return this.phone;
+	}
+
+	public void setPhone(int phone) {
+		this.phone = phone;
 	}
 
 	public String getUsername() {

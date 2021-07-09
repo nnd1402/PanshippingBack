@@ -9,5 +9,4 @@ public class PanShippingApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PanShippingApplication.class, args);
 	}
-
 }

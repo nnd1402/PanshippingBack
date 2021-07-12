@@ -1,11 +1,18 @@
 package com.example.demo.model;
 
+//import java.util.ArrayList;
+//import java.util.List;
+
+//import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+//import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+//import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.example.demo.dto.UserLoginDTO;
 import com.example.demo.dto.UserRegistrationDTO;
 
 @Entity
@@ -40,13 +47,12 @@ public class User {
 	@Column(name = "Password")
 	private String password;
 	
+//	@OneToMany(mappedBy="tbl_product",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+//	private List<Product> products = new ArrayList<>();
+	
 	public User() {
 	}
-
-	public User(String username, String password) {
-		this.username = username;
-		this.password = password;
-	}
+	
 	
 	public User(UserRegistrationDTO userDTO) {
 		this.id = userDTO.getId();
@@ -58,6 +64,11 @@ public class User {
         this.phone = userDTO.getPhone();
         this.username = userDTO.getUsername();
         this.password = userDTO.getPassword();
+	}
+	
+	public User(UserLoginDTO userLoginDTO) {
+		this.username = userLoginDTO.getUsername();
+		this.password = userLoginDTO.getPassword();
 	}
 
 	public Long getId() {
@@ -131,8 +142,22 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
+
+//	public List<Product> getProducts() {
+//		return this.products;
+//	}
+
+//	public void setProducts(List<Product> products) {
+//		this.products = products;
+//	}
+//	
+//	public void addProduct(Product product){
+//		this.products.add(product);
+//		
+//		if(!this.equals(product.getUser())){
+//			product.setUser(this);
+//		}
+//	}
 
 	@Override
 	public String toString() {

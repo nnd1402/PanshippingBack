@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.UserLoginDTO;
 import com.example.demo.dto.UserRegistrationDTO;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
@@ -48,11 +49,25 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void delete(Long id) {
-		userRepository.deleteById(id);
+	public Boolean delete(Long id) {
+		Optional<User> user = userRepository.findById(id);
+		if(user.isPresent()){
+			userRepository.deleteById(id);
+			return true;
+		}
+		return false;
 	}
 
-	
-	
 
+	@Override
+	public UserRegistrationDTO loginUsername(UserLoginDTO userLoginDto) {
+		User databaseUser = userRepository.findByUsername(userLoginDto.getUsername());
+		if(databaseUser != null) {
+			if(userLoginDto.getPassword().equals(databaseUser.getPassword()) ) {
+				databaseUser.setPassword(null);
+				return new UserRegistrationDTO(databaseUser);
+			} 
+		}
+		return null;
+	}
 }

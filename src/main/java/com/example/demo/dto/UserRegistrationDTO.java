@@ -14,8 +14,7 @@ public class UserRegistrationDTO {
 	private String username;
 	private String password;
 
-	public UserRegistrationDTO() {
-		
+	public UserRegistrationDTO() {	
 	}
 
 	public UserRegistrationDTO(User user) {

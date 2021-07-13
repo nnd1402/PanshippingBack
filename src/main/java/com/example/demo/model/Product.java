@@ -6,10 +6,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tbl_product")
@@ -31,9 +32,8 @@ public class Product {
 	@Column(name = "Description")
 	private String description;
 	
-	@OneToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "user", nullable = false)
-//	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "User", referencedColumnName = "Id")
 	private User user;
 
 	public Product() {
@@ -88,7 +88,6 @@ public class Product {
 		this.description = description;
 	}
 	
-	
 	public User getUser() {
 		return this.user;
 	}
@@ -96,5 +95,4 @@ public class Product {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 }

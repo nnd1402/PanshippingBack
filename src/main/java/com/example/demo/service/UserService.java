@@ -10,7 +10,6 @@ public interface UserService {
 	UserRegistrationDTO getUser(Long id);
 	List<UserRegistrationDTO> findAll();
 	UserRegistrationDTO save(UserRegistrationDTO userDto);
-
 	Boolean delete(Long id);
 	UserRegistrationDTO loginUsername(UserLoginDTO userLoginDTO);
 

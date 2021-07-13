@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.persistence.Table;
 
 import com.example.demo.dto.UserLoginDTO;
 import com.example.demo.dto.UserRegistrationDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tbl_user")
@@ -47,8 +49,9 @@ public class User {
 	@Column(name = "Password")
 	private String password;
 	
-	@OneToMany(mappedBy="user", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Product> products = new ArrayList<>();
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	@JsonIgnore
+	private List<Product> products= new ArrayList<>();
 	
 	public User() {
 	}
@@ -145,9 +148,13 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	
+
+	
 
 	public List<Product> getProducts() {
-		return this.products;
+		return products;
 	}
 
 	public void setProducts(List<Product> products) {

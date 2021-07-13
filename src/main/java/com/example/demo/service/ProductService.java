@@ -9,5 +9,4 @@ public interface ProductService {
 	List<Product> getAllProducts();
 	Product save(Product product);
 	Boolean delete(Long id);
-	
 }

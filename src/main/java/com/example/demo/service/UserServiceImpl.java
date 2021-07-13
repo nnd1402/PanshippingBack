@@ -23,9 +23,9 @@ public class UserServiceImpl implements UserService {
 			
 			if (userResponse.isPresent()) {
 				return  new UserRegistrationDTO(userResponse.get());
-			} else {
-				return null;
-			}
+			} 
+			
+			return null;
 		}
 	
 	@Override
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserRegistrationDTO save(UserRegistrationDTO userDto) {
+	public UserRegistrationDTO save (UserRegistrationDTO userDto) {
 		User user = new User(userDto);
 		User databaseUser = userRepository.save(user);
 		UserRegistrationDTO resultDto = new UserRegistrationDTO(databaseUser);
@@ -48,11 +48,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void delete(Long id) {
-		userRepository.deleteById(id);
+	public Boolean delete(Long id) {
+		Optional<User> user = userRepository.findById(id);
+		if(user != null){
+			userRepository.deleteById(id);
+			return true;
+		}
+		return true;
 	}
-
-	
-	
 
 }

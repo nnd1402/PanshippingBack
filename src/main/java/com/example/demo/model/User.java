@@ -1,15 +1,15 @@
 package com.example.demo.model;
 
-//import java.util.ArrayList;
-//import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
 
-//import javax.persistence.CascadeType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-//import javax.persistence.FetchType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-//import javax.persistence.OneToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.demo.dto.UserLoginDTO;
@@ -36,7 +36,7 @@ public class User {
 	private String country;
 	
 	@Column(name = "Phone")
-	private int phone;
+	private String phone;
 
 	@Column(name = "Email")
 	private String email;
@@ -47,13 +47,16 @@ public class User {
 	@Column(name = "Password")
 	private String password;
 	
-//	@OneToMany(mappedBy="tbl_product",fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-//	private List<Product> products = new ArrayList<>();
+	@OneToMany(mappedBy="user", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<Product> products = new ArrayList<>();
 	
 	public User() {
 	}
 	
-	
+	public User(Long id) {
+		this.id = id;
+	}
+
 	public User(UserRegistrationDTO userDTO) {
 		this.id = userDTO.getId();
         this.firstName = userDTO.getFirstName();
@@ -111,11 +114,11 @@ public class User {
 		this.country = country;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return this.phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 
@@ -143,26 +146,20 @@ public class User {
 		this.password = password;
 	}
 
-//	public List<Product> getProducts() {
-//		return this.products;
-//	}
+	public List<Product> getProducts() {
+		return this.products;
+	}
 
-//	public void setProducts(List<Product> products) {
-//		this.products = products;
-//	}
-//	
-//	public void addProduct(Product product){
-//		this.products.add(product);
-//		
-//		if(!this.equals(product.getUser())){
-//			product.setUser(this);
-//		}
-//	}
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", userName=" + username
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
+				+ ", country=" + country + ", phone=" + phone + ", email=" + email + ", username=" + username
 				+ ", password=" + password + "]";
 	}
 		
+	
 }

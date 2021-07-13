@@ -10,7 +10,7 @@ public class UserRegistrationDTO {
 	private String email;
 	private String address;
 	private String country;
-	private int phone;
+	private String phone;
 	private String username;
 	private String password;
 
@@ -70,11 +70,11 @@ public class UserRegistrationDTO {
 		this.country = country;
 	}
 
-	public int getPhone() {
+	public String getPhone() {
 		return this.phone;
 	}
 
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 

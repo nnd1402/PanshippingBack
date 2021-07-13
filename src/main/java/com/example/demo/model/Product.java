@@ -2,11 +2,14 @@ package com.example.demo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-//import javax.persistence.FetchType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-//import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+//import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tbl_product")
@@ -28,9 +31,22 @@ public class Product {
 	@Column(name = "Description")
 	private String description;
 	
-//	@ManyToOne(fetch=FetchType.EAGER)
-//	private User user;
+	@OneToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name = "user", nullable = false)
+//	@JsonIgnore
+	private User user;
+
+	public Product() {
+	}
 	
+	public Product(Long id, String name, double price, int quantity, String description, User user) {
+		this.id = id;
+		this.name = name;
+		this.price = price;
+		this.quantity = quantity;
+		this.description = description;
+		this.user = user;
+	}
 
 	public Long getId() {
 		return id;
@@ -73,20 +89,12 @@ public class Product {
 	}
 	
 	
-//	public User getUser() {
-//		return this.user;
-//	}
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//		if(user!=null && !user.getProducts().contains(this)){
-//			user.getProducts().add(this);
-//		}
-//	}
-
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", quantity=" + quantity + ", description="
-				+ description + "]";
+	public User getUser() {
+		return this.user;
 	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 }

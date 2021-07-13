@@ -33,7 +33,7 @@ public class ProductController {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	ResponseEntity<Product> getUser(@PathVariable Long id){
+	ResponseEntity<Product> getProduct(@PathVariable Long id){
 		Product product = productService.getProduct(id);
 		
 		if (product==null) {

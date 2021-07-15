@@ -48,12 +48,12 @@ public class ProductController {
 		Boolean success = productService.delete(id);
 		
 		if (!success) {
-			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
 
 		productService.delete(id);
 
-		return new ResponseEntity<>(Const.DELETED_USER, HttpStatus.OK);
+		return new ResponseEntity<>(Const.DELETED_PRODUCT, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

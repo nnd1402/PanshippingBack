@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,7 +29,7 @@ public class UserController {
 	ResponseEntity<?> getUsers() {
 		List<UserRegistrationDTO> users = userService.findAll();
 
-		if (users == null || users.isEmpty()) {
+		if (users.isEmpty()) {
 			return new ResponseEntity<>(Const.NO_USERS, HttpStatus.BAD_REQUEST);
 		}
 
@@ -47,7 +48,9 @@ public class UserController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	ResponseEntity<?> delete(@PathVariable Long id) {
-		if (userService.getUser(id) == null) {
+		Boolean success = userService.delete(id);
+		
+		if (!success) {
 			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
 
@@ -56,7 +59,7 @@ public class UserController {
 		return new ResponseEntity<>(Const.DELETED_USER, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/addUser", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/addUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> add(@RequestBody UserRegistrationDTO newUser) {
 		Boolean success = userService.save(newUser);
 
@@ -66,12 +69,9 @@ public class UserController {
 		return new ResponseEntity<>(Const.FAILED_CREATION_USER, HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = "application/json")
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> edit(@RequestBody UserRegistrationDTO userDTO, @PathVariable Long id) {
 
-		if (!id.equals(userDTO.getId())) {
-			return new ResponseEntity<>(Const.NO_SEARCHED_USER, HttpStatus.BAD_REQUEST);
-		}
 		if (userService.getUser(id) == null) {
 			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
@@ -81,7 +81,7 @@ public class UserController {
 		return new ResponseEntity<>(Const.SUCCESS_UPDATE_USER, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> post(@RequestBody UserLoginDTO user) {
 		UserRegistrationDTO loginUser = userService.loginUsername(user);
 

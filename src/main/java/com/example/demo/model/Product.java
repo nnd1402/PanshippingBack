@@ -27,11 +27,11 @@ public class Product {
 	@Column(name = "Quantity", nullable = false)
 	private int quantity;
 
-	@Column(name = "Description", nullable = false)
+	@Column(name = "Description")
 	private String description;
 
 	@ManyToOne
-	@JoinColumn(name = "User", referencedColumnName = "Id")
+	@JoinColumn(name = "User", referencedColumnName = "Id", nullable = false)
 	private User user;
 
 	public Product() {

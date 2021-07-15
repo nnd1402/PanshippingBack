@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +27,7 @@ public class ProductController {
 	ResponseEntity<?> getProducts() {
 		List<ProductDTO> products = productService.getAllProducts();
 
-		if (products == null || products.isEmpty()) {
+		if (products.isEmpty()) {
 			return new ResponseEntity<>(Const.NO_PRODUCTS, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(products, HttpStatus.OK);
@@ -44,16 +45,18 @@ public class ProductController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	ResponseEntity<?> delete(@PathVariable Long id) {
-		if (productService.getProduct(id) == null) {
-			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
+		Boolean success = productService.delete(id);
+		
+		if (!success) {
+			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
 
 		productService.delete(id);
 
-		return new ResponseEntity<>(Const.DELETED_PRODUCT, HttpStatus.OK);
+		return new ResponseEntity<>(Const.DELETED_USER, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> add(@RequestBody ProductDTO newProduct) {
 
 		Boolean success = productService.save(newProduct);
@@ -64,12 +67,9 @@ public class ProductController {
 		return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = "application/json")
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> edit(@RequestBody ProductDTO product, @PathVariable Long id) {
 
-		if (!id.equals(product.getId())) {
-			return new ResponseEntity<>(Const.NO_SEARCHED_PRODUCT, HttpStatus.BAD_REQUEST);
-		}
 		if (productService.getProduct(id) == null) {
 			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}

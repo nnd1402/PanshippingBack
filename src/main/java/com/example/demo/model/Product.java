@@ -2,15 +2,13 @@ package com.example.demo.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.demo.dto.ProductDTO;
 
 @Entity
 @Table(name = "tbl_product")
@@ -19,37 +17,37 @@ public class Product {
 	@Id
 	@GeneratedValue
 	private Long id;
-	
-	@Column(name = "Name")
+
+	@Column(name = "Name", nullable = false)
 	private String name;
-	
-	@Column(name = "Price")
+
+	@Column(name = "Price", nullable = false)
 	private double price;
-	
-	@Column(name = "Quantity")
+
+	@Column(name = "Quantity", nullable = false)
 	private int quantity;
-	
-	@Column(name = "Description")
+
+	@Column(name = "Description", nullable = false)
 	private String description;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "User", referencedColumnName = "Id")
 	private User user;
 
 	public Product() {
 	}
-	
-	public Product(Long id, String name, double price, int quantity, String description, User user) {
-		this.id = id;
-		this.name = name;
-		this.price = price;
-		this.quantity = quantity;
-		this.description = description;
-		this.user = user;
+
+	public Product(ProductDTO productDTO) {
+		this.id = productDTO.getId();
+		this.name = productDTO.getName();
+		this.price = productDTO.getPrice();
+		this.quantity = productDTO.getQuantity();
+		this.description = productDTO.getDescription();
+		this.user = productDTO.getUser();
 	}
 
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -57,7 +55,7 @@ public class Product {
 	}
 
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	public void setName(String name) {
@@ -65,7 +63,7 @@ public class Product {
 	}
 
 	public double getPrice() {
-		return price;
+		return this.price;
 	}
 
 	public void setPrice(int price) {
@@ -73,7 +71,7 @@ public class Product {
 	}
 
 	public int getQuantity() {
-		return quantity;
+		return this.quantity;
 	}
 
 	public void setQuantity(int quantity) {
@@ -81,13 +79,13 @@ public class Product {
 	}
 
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public User getUser() {
 		return this.user;
 	}

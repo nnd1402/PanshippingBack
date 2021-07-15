@@ -2,12 +2,10 @@ package com.example.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -20,58 +18,58 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "tbl_user")
 public class User {
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
-	@Column(name = "Firstname")
+
+	@Column(name = "Firstname", nullable = false)
 	private String firstName;
-	
-	@Column(name = "Lastname")
+
+	@Column(name = "Lastname", nullable = false)
 	private String lastName;
-	
-	@Column(name = "Address")
+
+	@Column(name = "Address", nullable = false)
 	private String address;
-	
-	@Column(name = "Country")
+
+	@Column(name = "Country", nullable = false)
 	private String country;
-	
-	@Column(name = "Phone")
+
+	@Column(name = "Phone", nullable = false)
 	private String phone;
 
-	@Column(name = "Email")
+	@Column(name = "Email", nullable = false)
 	private String email;
-	
-	@Column(name = "Username")
+
+	@Column(name = "Username", nullable = false)
 	private String username;
-	
-	@Column(name = "Password")
+
+	@Column(name = "Password", nullable = false)
 	private String password;
-	
-	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private List<Product> products= new ArrayList<>();
-	
+	private List<Product> products = new ArrayList<>();
+
 	public User() {
 	}
-	
+
 	public User(Long id) {
 		this.id = id;
 	}
 
 	public User(UserRegistrationDTO userDTO) {
 		this.id = userDTO.getId();
-        this.firstName = userDTO.getFirstName();
-        this.lastName = userDTO.getLastName();
-        this.email = userDTO.getEmail();
-        this.address = userDTO.getAddress();
-        this.country = userDTO.getCountry();
-        this.phone = userDTO.getPhone();
-        this.username = userDTO.getUsername();
-        this.password = userDTO.getPassword();
+		this.firstName = userDTO.getFirstName();
+		this.lastName = userDTO.getLastName();
+		this.email = userDTO.getEmail();
+		this.address = userDTO.getAddress();
+		this.country = userDTO.getCountry();
+		this.phone = userDTO.getPhone();
+		this.username = userDTO.getUsername();
+		this.password = userDTO.getPassword();
 	}
-	
+
 	public User(UserLoginDTO userLoginDTO) {
 		this.username = userLoginDTO.getUsername();
 		this.password = userLoginDTO.getPassword();
@@ -100,15 +98,15 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
+
 	public String getAddress() {
-		return address;
+		return this.address;
 	}
 
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 	public String getCountry() {
 		return this.country;
 	}
@@ -132,7 +130,7 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	
+
 	public String getEmail() {
 		return this.email;
 	}
@@ -148,13 +146,9 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
-
-	
 
 	public List<Product> getProducts() {
-		return products;
+		return this.products;
 	}
 
 	public void setProducts(List<Product> products) {
@@ -167,6 +161,5 @@ public class User {
 				+ ", country=" + country + ", phone=" + phone + ", email=" + email + ", username=" + username
 				+ ", password=" + password + "]";
 	}
-		
-	
+
 }

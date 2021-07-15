@@ -14,83 +14,81 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.UserLoginDTO;
 import com.example.demo.dto.UserRegistrationDTO;
-import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.Const;
 
 @RestController
-@RequestMapping(path="/user")
+@RequestMapping(path = "/user")
 public class UserController {
-	
+
 	@Autowired
 	private UserService userService;
-	
 
-	@RequestMapping(method=RequestMethod.GET)
-	ResponseEntity<List<UserRegistrationDTO>> getUsers(){
+	@RequestMapping(method = RequestMethod.GET)
+	ResponseEntity<?> getUsers() {
 		List<UserRegistrationDTO> users = userService.findAll();
-		
-		if(users == null || users.isEmpty()){
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		if (users == null || users.isEmpty()) {
+			return new ResponseEntity<>(Const.NO_USERS, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
-	
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	ResponseEntity<UserRegistrationDTO> getUser(@PathVariable Long id){
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	ResponseEntity<?> getUser(@PathVariable Long id) {
 		UserRegistrationDTO user = userService.getUser(id);
-		
-		if (user==null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+		if (user == null) {
+			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(user,HttpStatus.OK);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	ResponseEntity<User> delete(@PathVariable Long id){
-		if(userService.getUser(id) == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	ResponseEntity<?> delete(@PathVariable Long id) {
+		if (userService.getUser(id) == null) {
+			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
-		
+
 		userService.delete(id);
-				
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+		return new ResponseEntity<>(Const.DELETED_USER, HttpStatus.OK);
 	}
-	
-	@RequestMapping(value="/addUser", method=RequestMethod.POST,
-					consumes="application/json")
-	public ResponseEntity<UserRegistrationDTO> add(@RequestBody UserRegistrationDTO newUser){
-		UserRegistrationDTO savedUser = userService.save(newUser);
-		
-		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
-	}
-	
-	
-	@RequestMapping(method=RequestMethod.PUT,
-			value="/{id}",
-			consumes="application/json")
-	public ResponseEntity<UserRegistrationDTO> edit(
-			@RequestBody UserRegistrationDTO userDTO,
-			@PathVariable Long id){
-		
-		if(!id.equals(userDTO.getId())){
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+	@RequestMapping(value = "/addUser", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> add(@RequestBody UserRegistrationDTO newUser) {
+		Boolean success = userService.save(newUser);
+
+		if (success) {
+			return new ResponseEntity<>(Const.CREATED_USER, HttpStatus.CREATED);
 		}
-		
-		UserRegistrationDTO persisted = userService.save(userDTO);
-		
-		return new ResponseEntity<>(persisted,HttpStatus.OK);
+		return new ResponseEntity<>(Const.FAILED_CREATION_USER, HttpStatus.BAD_REQUEST);
 	}
-	
-	
-	@RequestMapping(value="/login", method=RequestMethod.POST, consumes="application/json")
-		public ResponseEntity<UserRegistrationDTO> post(@RequestBody UserLoginDTO newUser){
-		UserRegistrationDTO loginUser = userService.loginUsername(newUser);
-		if(loginUser != null) {
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = "application/json")
+	public ResponseEntity<?> edit(@RequestBody UserRegistrationDTO userDTO, @PathVariable Long id) {
+
+		if (!id.equals(userDTO.getId())) {
+			return new ResponseEntity<>(Const.NO_SEARCHED_USER, HttpStatus.BAD_REQUEST);
+		}
+		if (userService.getUser(id) == null) {
+			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
+		}
+
+		userService.save(userDTO);
+
+		return new ResponseEntity<>(Const.SUCCESS_UPDATE_USER, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json")
+	public ResponseEntity<?> post(@RequestBody UserLoginDTO user) {
+		UserRegistrationDTO loginUser = userService.loginUsername(user);
+
+		if (loginUser != null) {
 			return new ResponseEntity<>(loginUser, HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}	
+			return new ResponseEntity<>(Const.LOGIN_FAIL, HttpStatus.BAD_REQUEST);
+		}
 	}
 }

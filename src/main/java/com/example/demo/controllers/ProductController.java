@@ -46,12 +46,10 @@ public class ProductController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	ResponseEntity<?> delete(@PathVariable Long id) {
 		Boolean success = productService.delete(id);
-		
+
 		if (!success) {
 			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
-
-		productService.delete(id);
 
 		return new ResponseEntity<>(Const.DELETED_PRODUCT, HttpStatus.OK);
 	}

@@ -54,8 +54,6 @@ public class UserController {
 			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
 
-		userService.delete(id);
-
 		return new ResponseEntity<>(Const.DELETED_USER, HttpStatus.OK);
 	}
 

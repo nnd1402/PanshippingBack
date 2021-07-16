@@ -41,14 +41,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Boolean save(UserRegistrationDTO userDto) {
-		User user = new User(userDto);
-		try {
-			userRepository.save(user);
-			return true;
-		} catch (Exception e) {
+		User databaseUser = userRepository.findByUsername(userDto.getUsername());
+		if (databaseUser != null) {
 			return false;
 		}
+		User user = new User(userDto);
+		userRepository.save(user);
+		return true;
 	}
+
 
 	@Override
 	public Boolean delete(Long id) {

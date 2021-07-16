@@ -74,9 +74,11 @@ public class UserController {
 			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
 
-		userService.save(userDTO);
-
-		return new ResponseEntity<>(Const.SUCCESS_UPDATE_USER, HttpStatus.OK);
+		Boolean success = userService.update(userDTO);
+		if (success) {
+			return new ResponseEntity<>(Const.SUCCESS_UPDATE_USER, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(Const.FAILED_UPDATE_USER, HttpStatus.BAD_REQUEST);
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

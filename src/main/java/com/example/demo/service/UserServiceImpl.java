@@ -49,6 +49,16 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		return true;
 	}
+	
+	public Boolean update(UserRegistrationDTO userDto) {
+		User user = new User(userDto);
+		try {
+			userRepository.save(user);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 
 	@Override

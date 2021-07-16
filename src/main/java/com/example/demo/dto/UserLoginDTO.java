@@ -6,10 +6,13 @@ public class UserLoginDTO {
 
 	private String username;
 	private String password;
-	
-	public UserLoginDTO(User entity) {
-		this.username = entity.getUsername();
-		this.password = entity.getPassword();
+
+	public UserLoginDTO() {
+	}
+
+	public UserLoginDTO(User user) {
+		this.username = user.getUsername();
+		this.password = user.getPassword();
 	}
 
 	public String getUsername() {
@@ -27,6 +30,4 @@ public class UserLoginDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 }

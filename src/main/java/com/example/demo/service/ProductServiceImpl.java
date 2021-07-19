@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.model.Product;
@@ -55,6 +57,21 @@ public class ProductServiceImpl implements ProductService {
 		if (product.isPresent()) {
 			productRepository.deleteById(id);
 			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean saveImageFile(Long Id, MultipartFile file) {
+		Product product = productRepository.findById(Id).get();
+		try {
+
+			product.setImage(Base64.getEncoder().encode(file.getBytes()));
+
+			productRepository.save(product);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return false;
 	}

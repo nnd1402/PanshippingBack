@@ -8,6 +8,7 @@ public class ProductDTO {
 	private Long id;
 	private String name;
 	private double price;
+	private byte[] image;
 	private int quantity;
 	private String description;
 	private User user;
@@ -19,6 +20,7 @@ public class ProductDTO {
 		this.id = product.getId();
 		this.name = product.getName();
 		this.price = product.getPrice();
+		this.image = product.getImage();
 		this.quantity = product.getQuantity();
 		this.description = product.getDescription();
 		this.user = product.getUser();
@@ -46,6 +48,14 @@ public class ProductDTO {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+	public byte[] getImage() {
+		return this.image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public int getQuantity() {

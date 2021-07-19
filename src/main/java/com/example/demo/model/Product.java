@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -23,6 +24,10 @@ public class Product {
 
 	@Column(name = "Price", nullable = false)
 	private double price;
+	
+	@Lob
+	@Column (name = "Image")
+	private byte[] image;
 
 	@Column(name = "Quantity", nullable = false)
 	private int quantity;
@@ -41,6 +46,7 @@ public class Product {
 		this.id = productDTO.getId();
 		this.name = productDTO.getName();
 		this.price = productDTO.getPrice();
+		this.image = productDTO.getImage();
 		this.quantity = productDTO.getQuantity();
 		this.description = productDTO.getDescription();
 		this.user = productDTO.getUser();
@@ -66,8 +72,17 @@ public class Product {
 		return this.price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+
+	public byte[] getImage() {
+		return this.image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public int getQuantity() {

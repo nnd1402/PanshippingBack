@@ -49,8 +49,14 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		return true;
 	}
-	
+
 	public Boolean update(UserRegistrationDTO userDto) {
+		User databaseUser = userRepository.findByUsername(userDto.getUsername());
+
+		if (databaseUser != null && !databaseUser.getId().equals(userDto.getId())) {
+			return false;
+		}
+
 		User user = new User(userDto);
 		try {
 			userRepository.save(user);
@@ -59,7 +65,6 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
-
 
 	@Override
 	public Boolean delete(Long id) {

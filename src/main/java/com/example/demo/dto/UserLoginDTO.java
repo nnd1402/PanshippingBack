@@ -2,32 +2,20 @@ package com.example.demo.dto;
 
 import com.example.demo.model.User;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserLoginDTO {
 
-	private String username;
-	private String password;
-
-	public UserLoginDTO() {
-	}
+	private @Getter @Setter String username;
+	private @Getter @Setter String password;
 
 	public UserLoginDTO(User user) {
 		this.username = user.getUsername();
 		this.password = user.getPassword();
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 }

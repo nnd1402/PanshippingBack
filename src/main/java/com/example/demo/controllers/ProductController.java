@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -80,8 +79,18 @@ public class ProductController {
 		return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/{id}/getImage", method = RequestMethod.GET)
+	ResponseEntity<?> getImageFile(@PathVariable Long id) {
+		ProductDTO product = productService.getProduct(id);
+
+		if (product.getImage() == null) {
+			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(product.getImage(), HttpStatus.OK);
+	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/{id}/addImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> imagePost(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
 
 		Boolean success = productService.saveImageFile(id, file);
@@ -89,5 +98,16 @@ public class ProductController {
 			return new ResponseEntity<>(Const.SUCCESS_UPLOAD_IMAGE, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(Const.FAILED_UPLOAD_IMAGE, HttpStatus.BAD_REQUEST);
+	}
+	
+	@RequestMapping(value = "/{id}/deleteImage", method = RequestMethod.DELETE)
+	ResponseEntity<?> deleteImage(@PathVariable Long id) {
+		Boolean success = productService.deleteImageFile(id);
+
+		if (!success) {
+			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(Const.DELETED_PRODUCT, HttpStatus.OK);
 	}
 }

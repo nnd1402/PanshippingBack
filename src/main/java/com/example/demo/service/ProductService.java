@@ -16,4 +16,6 @@ public interface ProductService {
 	Boolean delete(Long id);
 	
 	boolean saveImageFile(Long Id, MultipartFile file);
+	
+	boolean deleteImageFile(Long Id);
 }

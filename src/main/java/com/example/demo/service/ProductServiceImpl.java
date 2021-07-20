@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,16 +64,33 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public boolean saveImageFile(Long Id, MultipartFile file) {
-		Product product = productRepository.findById(Id).get();
 		try {
+			Product product = productRepository.findById(Id).get();
 
-			product.setImage(Base64.getEncoder().encode(file.getBytes()));
+			if (product.getImage() == null) {
+				try {
+					product.setImage(Base64.getEncoder().encode(file.getBytes()));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-			productRepository.save(product);
+				productRepository.save(product);
+				return true;
+			} else {
+				return false;
+			}
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	public boolean deleteImageFile(Long Id) {
+		Product product = productRepository.findById(Id).get();
+		if (product.getImage() != null) {
+			productRepository.deleteImageById(Id);
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		return false;
 	}
+
 }

@@ -15,44 +15,50 @@ import com.example.demo.dto.UserLoginDTO;
 import com.example.demo.dto.UserRegistrationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 @Entity
 @Table(name = "tbl_user")
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class User {
 
 	@Id
 	@GeneratedValue
-	private Long id;
+	private @Getter @Setter Long id;
 
 	@Column(name = "Firstname", nullable = false)
-	private String firstName;
+	private @Getter @Setter String firstName;
 
 	@Column(name = "Lastname", nullable = false)
-	private String lastName;
+	private @Getter @Setter String lastName;
 
 	@Column(name = "Address", nullable = false)
-	private String address;
+	private @Getter @Setter String address;
 
 	@Column(name = "Country", nullable = false)
-	private String country;
+	private @Getter @Setter String country;
 
 	@Column(name = "Phone", nullable = false)
-	private String phone;
+	private @Getter @Setter String phone;
 
 	@Column(name = "Email", nullable = false)
-	private String email;
+	private @Getter @Setter String email;
 
 	@Column(name = "Username", nullable = false)
-	private String username;
+	private @Getter @Setter String username;
 
 	@Column(name = "Password", nullable = false)
-	private String password;
+	private @Getter @Setter String password;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private List<Product> products = new ArrayList<>();
-
-	public User() {
-	}
+	private @Getter @Setter List<Product> products = new ArrayList<>();
 
 	public User(Long id) {
 		this.id = id;
@@ -74,92 +80,4 @@ public class User {
 		this.username = userLoginDTO.getUsername();
 		this.password = userLoginDTO.getPassword();
 	}
-
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return this.firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getCountry() {
-		return this.country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getPhone() {
-		return this.phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public List<Product> getProducts() {
-		return this.products;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
-				+ ", country=" + country + ", phone=" + phone + ", email=" + email + ", username=" + username
-				+ ", password=" + password + "]";
-	}
-
 }

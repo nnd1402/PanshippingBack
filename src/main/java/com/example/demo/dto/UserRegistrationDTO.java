@@ -2,20 +2,24 @@ package com.example.demo.dto;
 
 import com.example.demo.model.User;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserRegistrationDTO {
 
-	private Long id;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String address;
-	private String country;
-	private String phone;
-	private String username;
-	private String password;
-
-	public UserRegistrationDTO() {
-	}
+	private @Getter @Setter Long id;
+	private @Getter @Setter String firstName;
+	private @Getter @Setter String lastName;
+	private @Getter @Setter String email;
+	private @Getter @Setter String address;
+	private @Getter @Setter String country;
+	private @Getter @Setter String phone;
+	private @Getter @Setter String username;
+	private @Getter @Setter String password;
 
 	public UserRegistrationDTO(User user) {
 		this.id = user.getId();
@@ -28,77 +32,4 @@ public class UserRegistrationDTO {
 		this.username = user.getUsername();
 		this.password = user.getPassword();
 	}
-
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return this.firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getCountry() {
-		return this.country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getPhone() {
-		return this.phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 }

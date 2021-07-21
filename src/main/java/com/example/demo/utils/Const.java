@@ -21,4 +21,6 @@ public class Const {
 	
 	public static final String SUCCESS_UPLOAD_IMAGE = "Successfully uploaded image";
 	public static final String FAILED_UPLOAD_IMAGE = "Failed to upload image";
+	public static final String DELETED_IMAGE = "Successfully deleted image";
+	public static final String NO_IMAGE = "Image doesn't exist.";
 }

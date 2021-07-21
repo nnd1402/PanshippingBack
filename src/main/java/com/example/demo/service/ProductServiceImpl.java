@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -67,30 +66,39 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			Product product = productRepository.findById(Id).get();
 
-			if (product.getImage() == null) {
-				try {
-					product.setImage(Base64.getEncoder().encode(file.getBytes()));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				productRepository.save(product);
-				return true;
-			} else {
-				return false;
+			try {
+				product.setImage(file.getBytes());
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
+			productRepository.save(product);
+			return true;
+
 		} catch (NoSuchElementException e) {
 			return false;
 		}
 	}
 
 	public boolean deleteImageFile(Long Id) {
-		Product product = productRepository.findById(Id).get();
-		if (product.getImage() != null) {
-			productRepository.deleteImageById(Id);
-			return true;
+		try {
+			Product product = productRepository.findById(Id).get();
+
+			if (product.getImage() != null) {
+				product.setImage(null);
+				productRepository.save(product);
+				return true;
+			}
+			return false;
+			
+			
+
+//		productRepository.deleteImageById(Id);
+//		return true;
+
+		} catch (NoSuchElementException e) {
+			return false;
 		}
-		return false;
 	}
 
 }

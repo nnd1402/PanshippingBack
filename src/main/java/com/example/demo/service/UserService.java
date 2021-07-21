@@ -11,6 +11,8 @@ public interface UserService {
 	List<UserRegistrationDTO> findAll();
 
 	Boolean save(UserRegistrationDTO userDto);
+	
+	Boolean update(UserRegistrationDTO userDto);
 
 	Boolean delete(Long id);
 

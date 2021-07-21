@@ -41,10 +41,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Boolean save(UserRegistrationDTO userDto) {
-		User databaseUser = userRepository.findByUsername(userDto.getUsername());
-		if (databaseUser != null) {
-			return false;
-		}
 		User user = new User(userDto);
 		userRepository.save(user);
 		return true;

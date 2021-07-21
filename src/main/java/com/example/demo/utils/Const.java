@@ -9,6 +9,7 @@ public class Const {
 	public static final String NO_PRODUCTS = "There are no products in the database";
 	public static final String NO_SEARCHED_PRODUCT = "Searched product doesn't match with the product in the database";
 	public static final String SUCCESS_UPDATE_PRODUCT = "Successfully updated product";
+	
 
 	public static final String CREATED_USER = "User successfully created";
 	public static final String FAILED_CREATION_USER = "Failed to create user, please fill in all fields correctly";
@@ -19,4 +20,5 @@ public class Const {
 	public static final String LOGIN_FAIL = "Username or password are invalid";
 	public static final String SUCCESS_UPDATE_USER = "Successfully updated user";
 	public static final String FAILED_UPDATE_USER = "Failed to update user";
+	public static final String FAILED_USERNAME_EXISTS = "This username already exists, please type another username";
 }

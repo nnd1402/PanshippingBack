@@ -84,6 +84,12 @@ public class UserController {
 			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
 
+		User databaseUser = userRepository.findByUsername(userDTO.getUsername());
+
+		if (databaseUser != null && !databaseUser.getId().equals(userDTO.getId())) {
+			return new ResponseEntity<>(Const.FAILED_USERNAME_EXISTS, HttpStatus.BAD_REQUEST);
+		}
+
 		Boolean success = userService.update(userDTO);
 		if (success) {
 			return new ResponseEntity<>(Const.SUCCESS_UPDATE_USER, HttpStatus.OK);

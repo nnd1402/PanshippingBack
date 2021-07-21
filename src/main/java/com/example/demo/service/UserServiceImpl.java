@@ -47,12 +47,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public Boolean update(UserRegistrationDTO userDto) {
-		User databaseUser = userRepository.findByUsername(userDto.getUsername());
-
-		if (databaseUser != null && !databaseUser.getId().equals(userDto.getId())) {
-			return false;
-		}
-
 		User user = new User(userDto);
 		try {
 			userRepository.save(user);

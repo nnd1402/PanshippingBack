@@ -10,10 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import com.example.demo.dto.UserLoginDTO;
 import com.example.demo.dto.UserRegistrationDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,28 +35,37 @@ public class User {
 	@GeneratedValue
 	private @Getter @Setter Long id;
 
-	@Column(name = "Firstname", nullable = false)
+	@Column(name = "Firstname")
+	@NotNull
 	private @Getter @Setter String firstName;
 
-	@Column(name = "Lastname", nullable = false)
+	@Column(name = "Lastname")
+	@NotNull
 	private @Getter @Setter String lastName;
 
-	@Column(name = "Address", nullable = false)
+	@Column(name = "Address")
+	@NotNull
 	private @Getter @Setter String address;
 
-	@Column(name = "Country", nullable = false)
+	@Column(name = "Country")
+	@NotNull
 	private @Getter @Setter String country;
 
-	@Column(name = "Phone", nullable = false)
+	@Column(name = "Phone")
+	@NotNull
 	private @Getter @Setter String phone;
 
-	@Column(name = "Email", nullable = false)
+	@Column(name = "Email", unique = true)
+	@Email
+	@NotBlank
 	private @Getter @Setter String email;
 
-	@Column(name = "Username", nullable = false)
+	@Column(name = "Username", unique = true)
+	@NotNull
 	private @Getter @Setter String username;
 
-	@Column(name = "Password", nullable = false)
+	@Column(name = "Password")
+	@NotNull
 	private @Getter @Setter String password;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

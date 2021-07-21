@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.example.demo.dto.ProductDTO;
+import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,17 +29,20 @@ public class Product {
 	@GeneratedValue
 	private @Getter @Setter Long id;
 
-	@Column(name = "Name", nullable = false)
+	@Column(name = "Name")
+	@NotNull
 	private @Getter @Setter String name;
 
-	@Column(name = "Price", nullable = false)
+	@Column(name = "Price")
+	@NotNull
 	private @Getter @Setter double price;
 	
 	@Lob
 	@Column (name = "Image")
 	private @Getter @Setter byte[] image;
 
-	@Column(name = "Quantity", nullable = false)
+	@Column(name = "Quantity")
+	@NotNull
 	private @Getter @Setter int quantity;
 
 	@Column(name = "Description")

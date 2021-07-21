@@ -84,12 +84,16 @@ public class ProductController {
 	ResponseEntity<?> getImageFile(@PathVariable Long id) {
 		ProductDTO product = productService.getProduct(id);
 
-		if (product.getImage() == null) {
+		try {
+			if (product.getImage() == null) {
+				return new ResponseEntity<>(Const.NO_IMAGE, HttpStatus.BAD_REQUEST);
+			}
+
+			String encodedImage = Base64.getEncoder().encodeToString(product.getImage());
+			return new ResponseEntity<>(encodedImage, HttpStatus.OK);
+		} catch (NullPointerException e) {
 			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
-
-		String encodedImage = Base64.getEncoder().encodeToString(product.getImage());
-		return new ResponseEntity<>(encodedImage, HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}/setImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -97,19 +101,8 @@ public class ProductController {
 
 		Boolean success = productService.saveImageFile(id, file);
 		if (success) {
-			return new ResponseEntity<>(Const.SUCCESS_UPLOAD_IMAGE, HttpStatus.OK);
+			return new ResponseEntity<>(Const.SUCCESS_ADD_IMAGE, HttpStatus.OK);
 		}
-		return new ResponseEntity<>(Const.FAILED_UPLOAD_IMAGE, HttpStatus.BAD_REQUEST);
-	}
-
-	@RequestMapping(value = "/{id}/deleteImage", method = RequestMethod.DELETE)
-	ResponseEntity<?> deleteImage(@PathVariable Long id) {
-		Boolean success = productService.deleteImageFile(id);
-
-		if (!success) {
-			return new ResponseEntity<>(Const.NO_IMAGE, HttpStatus.BAD_REQUEST);
-		}
-
-		return new ResponseEntity<>(Const.DELETED_IMAGE, HttpStatus.OK);
+		return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 	}
 }

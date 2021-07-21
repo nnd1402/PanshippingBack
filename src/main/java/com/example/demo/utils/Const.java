@@ -19,8 +19,8 @@ public class Const {
 	public static final String LOGIN_FAIL = "Username or password are invalid";
 	public static final String SUCCESS_UPDATE_USER = "Successfully updated user";
 	
-	public static final String SUCCESS_UPLOAD_IMAGE = "Successfully uploaded image";
-	public static final String FAILED_UPLOAD_IMAGE = "Failed to upload image";
+	public static final String SUCCESS_ADD_IMAGE = "Successfully added image";
+	public static final String FAILED_ADD_IMAGE = "Failed to add image";
 	public static final String DELETED_IMAGE = "Successfully deleted image";
 	public static final String NO_IMAGE = "Image doesn't exist.";
 }

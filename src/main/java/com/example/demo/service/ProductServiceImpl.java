@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public boolean saveImageFile(Long Id, MultipartFile file) {
+	public Boolean saveImageFile(Long Id, MultipartFile file) {
 		try {
 			Product product = productRepository.findById(Id).get();
 
@@ -79,26 +79,4 @@ public class ProductServiceImpl implements ProductService {
 			return false;
 		}
 	}
-
-	public boolean deleteImageFile(Long Id) {
-		try {
-			Product product = productRepository.findById(Id).get();
-
-			if (product.getImage() != null) {
-				product.setImage(null);
-				productRepository.save(product);
-				return true;
-			}
-			return false;
-			
-			
-
-//		productRepository.deleteImageById(Id);
-//		return true;
-
-		} catch (NoSuchElementException e) {
-			return false;
-		}
-	}
-
 }

@@ -19,58 +19,56 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "tbl_user")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class User {
 
 	@Id
 	@GeneratedValue
-	private @Getter @Setter Long id;
+	private Long id;
 
 	@Column(name = "Firstname")
 	@NotNull
-	private @Getter @Setter String firstName;
+	private String firstName;
 
 	@Column(name = "Lastname")
 	@NotNull
-	private @Getter @Setter String lastName;
+	private String lastName;
 
 	@Column(name = "Address")
 	@NotNull
-	private @Getter @Setter String address;
+	private String address;
 
 	@Column(name = "Country")
 	@NotNull
-	private @Getter @Setter String country;
+	private String country;
 
 	@Column(name = "Phone")
 	@NotNull
-	private @Getter @Setter String phone;
+	private String phone;
 
 	@Column(name = "Email", unique = true)
 	@Email
 	@NotBlank
-	private @Getter @Setter String email;
+	private String email;
 
 	@Column(name = "Username", unique = true)
 	@NotNull
-	private @Getter @Setter String username;
+	private String username;
 
 	@Column(name = "Password")
 	@NotNull
-	private @Getter @Setter String password;
+	private String password;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonIgnore
-	private @Getter @Setter List<Product> products = new ArrayList<>();
+	private List<Product> products = new ArrayList<>();
 
 	public User(Long id) {
 		this.id = id;

@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,30 +56,61 @@ public class ProductController {
 		return new ResponseEntity<>(Const.DELETED_PRODUCT, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> add(@RequestBody ProductDTO newProduct) {
+	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
+	public ResponseEntity<?> add(@RequestParam(value ="product", required = true) String product, @RequestParam(value = "file", required = false) MultipartFile file) {
+		
+		ProductDTO newProduct = productService.getJson(product);
+		
+		if (file != null) {
+			Boolean success = productService.saveWithImage(newProduct, file);
 
-		Boolean success = productService.save(newProduct);
+			if (success) {
+				return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
+		} else {
 
-		if (success) {
-			return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
+			Boolean success = productService.save(newProduct);
+
+			if (success) {
+				return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> edit(@RequestBody ProductDTO product, @PathVariable Long id) {
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> edit(@RequestParam(value ="product", required = true) String product, @RequestParam(value = "file", required = false) MultipartFile file, @PathVariable Long id) {
 
 		if (productService.getProduct(id) == null) {
 			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
+		
+		ProductDTO newProduct = productService.getJson(product);
+		if (file != null) {
+			Boolean success = productService.saveWithImage(newProduct, file);
 
-		productService.save(product);
+			if (success) {
+				return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);
+		} else {
 
-		return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.OK);
+			Boolean success = productService.save(newProduct);
+
+			if (success) {
+				return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);
+		}
+		
+//
+//		productService.save(product);
+//
+//		return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/{id}/getImage", method = RequestMethod.GET)
+	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
 	ResponseEntity<?> getImageFile(@PathVariable Long id) {
 		ProductDTO product = productService.getProduct(id);
 
@@ -96,7 +126,7 @@ public class ProductController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/{id}/setImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@RequestMapping(method = RequestMethod.PUT, value = "/setImage/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<?> imagePost(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
 
 		Boolean success = productService.saveImageFile(id, file);

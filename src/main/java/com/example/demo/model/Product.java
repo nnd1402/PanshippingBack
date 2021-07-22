@@ -9,50 +9,60 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.demo.dto.ProductDTO;
 import com.sun.istack.NotNull;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "tbl_product")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Product {
 
 	@Id
 	@GeneratedValue
-	private @Getter @Setter Long id;
+	private Long id;
 
 	@Column(name = "Name")
 	@NotNull
-	private @Getter @Setter String name;
+	private String name;
 
 	@Column(name = "Price")
 	@NotNull
-	private @Getter @Setter double price;
+	private double price;
 	
 	@Lob
 	@Column (name = "Image")
-	private @Getter @Setter byte[] image;
+	private byte[] image;
 
 	@Column(name = "Quantity")
 	@NotNull
-	private @Getter @Setter int quantity;
+	private int quantity;
 
 	@Column(name = "Description")
-	private @Getter @Setter String description;
+	private String description;
 
 	@ManyToOne
 	@JoinColumn(name = "User", referencedColumnName = "Id", nullable = false)
-	private @Getter @Setter User user;
+	private User user;
 
 	public Product(ProductDTO productDTO) {
+		this.id = productDTO.getId();
+		this.name = productDTO.getName();
+		this.price = productDTO.getPrice();
+		this.image = productDTO.getImage();
+		this.quantity = productDTO.getQuantity();
+		this.description = productDTO.getDescription();
+		this.user = productDTO.getUser();
+	}
+
+	public Product(ProductDTO productDTO, MultipartFile file) {
 		this.id = productDTO.getId();
 		this.name = productDTO.getName();
 		this.price = productDTO.getPrice();

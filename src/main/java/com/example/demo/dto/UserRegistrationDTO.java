@@ -3,23 +3,23 @@ package com.example.demo.dto;
 import com.example.demo.model.User;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRegistrationDTO {
 
-	private @Getter @Setter Long id;
-	private @Getter @Setter String firstName;
-	private @Getter @Setter String lastName;
-	private @Getter @Setter String email;
-	private @Getter @Setter String address;
-	private @Getter @Setter String country;
-	private @Getter @Setter String phone;
-	private @Getter @Setter String username;
-	private @Getter @Setter String password;
+	private Long id;
+	private String firstName;
+	private String lastName;
+	private String email;
+	private String address;
+	private String country;
+	private String phone;
+	private String username;
+	private String password;
 
 	public UserRegistrationDTO(User user) {
 		this.id = user.getId();

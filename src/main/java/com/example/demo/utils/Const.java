@@ -9,6 +9,7 @@ public class Const {
 	public static final String NO_PRODUCTS = "There are no products in the database";
 	public static final String NO_SEARCHED_PRODUCT = "Searched product doesn't match with the product in the database";
 	public static final String SUCCESS_UPDATE_PRODUCT = "Successfully updated product";
+	public static final String FAILED_UPDATE_PRODUCT = "Failed to update product";
 
 	public static final String CREATED_USER = "User successfully created";
 	public static final String FAILED_CREATION_USER = "Failed to create user, please fill in all fields correctly";
@@ -22,5 +23,5 @@ public class Const {
 	public static final String SUCCESS_ADD_IMAGE = "Successfully added image";
 	public static final String FAILED_ADD_IMAGE = "Failed to add image";
 	public static final String DELETED_IMAGE = "Successfully deleted image";
-	public static final String NO_IMAGE = "Image doesn't exist.";
+	public static final String NO_IMAGE = "Image doesn't exist in the product.";
 }

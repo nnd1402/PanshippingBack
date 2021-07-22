@@ -4,21 +4,21 @@ import com.example.demo.model.Product;
 import com.example.demo.model.User;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDTO {
 
-	private @Getter @Setter Long id;
-	private @Getter @Setter String name;
-	private @Getter @Setter double price;
-	private @Getter @Setter byte[] image;
-	private @Getter @Setter int quantity;
-	private @Getter @Setter String description;
-	private @Getter @Setter User user;
+	private Long id;
+	private String name;
+	private double price;
+	private byte[] image;
+	private int quantity;
+	private String description;
+	private User user;
 
 	public ProductDTO(Product product) {
 		this.id = product.getId();

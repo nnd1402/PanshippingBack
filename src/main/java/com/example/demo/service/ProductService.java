@@ -12,8 +12,12 @@ public interface ProductService {
 	List<ProductDTO> getAllProducts();
 
 	Boolean save(ProductDTO productDTO);
+	
+	Boolean saveWithImage(ProductDTO productDTO, MultipartFile file);
 
 	Boolean delete(Long id);
 	
 	Boolean saveImageFile(Long Id, MultipartFile file);
+	
+	ProductDTO getJson(String product);
 }

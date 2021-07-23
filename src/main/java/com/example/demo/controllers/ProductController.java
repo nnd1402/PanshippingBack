@@ -103,11 +103,6 @@ public class ProductController {
 			}
 			return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
-		
-//
-//		productService.save(product);
-//
-//		return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
@@ -127,7 +122,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/setImage/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> imagePost(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+	public ResponseEntity<?> setImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
 
 		Boolean success = productService.saveImageFile(id, file);
 		if (success) {

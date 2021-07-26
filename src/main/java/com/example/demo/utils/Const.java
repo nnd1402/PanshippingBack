@@ -19,6 +19,7 @@ public class Const {
 	public static final String NO_SEARCHED_USER = "Searched user doesn't match with the user in the database";
 	public static final String LOGIN_FAIL = "Username or password are invalid";
 	public static final String SUCCESS_UPDATE_USER = "Successfully updated user";
+
 	
 	public static final String SUCCESS_ADD_IMAGE = "Successfully added image";
 	public static final String FAILED_ADD_IMAGE = "Failed to add image";

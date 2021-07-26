@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.UserLoginDTO;
 import com.example.demo.dto.UserRegistrationDTO;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.Const;
 
@@ -24,6 +26,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
 	ResponseEntity<?> getUsers() {
@@ -49,7 +54,7 @@ public class UserController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	ResponseEntity<?> delete(@PathVariable Long id) {
 		Boolean success = userService.delete(id);
-		
+
 		if (!success) {
 			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
@@ -59,6 +64,11 @@ public class UserController {
 
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> add(@RequestBody UserRegistrationDTO newUser) {
+		User databaseUser = userRepository.findByUsername(newUser.getUsername());
+		if (databaseUser != null) {
+			return new ResponseEntity<>(Const.FAILED_USERNAME_EXISTS, HttpStatus.BAD_REQUEST);
+		}
+
 		Boolean success = userService.save(newUser);
 
 		if (success) {
@@ -74,9 +84,17 @@ public class UserController {
 			return new ResponseEntity<>(Const.NO_USER, HttpStatus.BAD_REQUEST);
 		}
 
-		userService.save(userDTO);
+		User databaseUser = userRepository.findByUsername(userDTO.getUsername());
 
-		return new ResponseEntity<>(Const.SUCCESS_UPDATE_USER, HttpStatus.OK);
+		if (databaseUser != null && !databaseUser.getId().equals(userDTO.getId())) {
+			return new ResponseEntity<>(Const.FAILED_USERNAME_EXISTS, HttpStatus.BAD_REQUEST);
+		}
+
+		Boolean success = userService.update(userDTO);
+		if (success) {
+			return new ResponseEntity<>(Const.SUCCESS_UPDATE_USER, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(Const.FAILED_UPDATE_USER, HttpStatus.BAD_REQUEST);
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

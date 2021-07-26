@@ -42,6 +42,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Boolean save(UserRegistrationDTO userDto) {
 		User user = new User(userDto);
+		userRepository.save(user);
+		return true;
+	}
+
+	public Boolean update(UserRegistrationDTO userDto) {
+		User user = new User(userDto);
 		try {
 			userRepository.save(user);
 			return true;

@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.ProductDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import lombok.Data;
@@ -48,7 +49,13 @@ public class Product {
 
 	@ManyToOne
 	@JoinColumn(name = "User", referencedColumnName = "Id", nullable = false)
+	@JsonIgnore
 	private User user;
+	
+	@ManyToOne
+	@JoinColumn(name = "shipping", referencedColumnName = "Id")
+	@JsonIgnore
+	private Shipping shipping;
 
 	public Product(ProductDTO productDTO) {
 		this.id = productDTO.getId();
@@ -58,6 +65,7 @@ public class Product {
 		this.quantity = productDTO.getQuantity();
 		this.description = productDTO.getDescription();
 		this.user = productDTO.getUser();
+		this.shipping = productDTO.getShipping();
 	}
 
 	public Product(ProductDTO productDTO, MultipartFile file) {

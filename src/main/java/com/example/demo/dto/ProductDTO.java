@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.Product;
+import com.example.demo.model.Shipping;
 import com.example.demo.model.User;
 
 import lombok.Data;
@@ -17,6 +18,7 @@ public class ProductDTO {
 	private int quantity;
 	private String description;
 	private User user;
+	private Shipping shipping;
 
 	public ProductDTO(Product product) {
 		this.id = product.getId();
@@ -26,5 +28,6 @@ public class ProductDTO {
 		this.quantity = product.getQuantity();
 		this.description = product.getDescription();
 		this.user = product.getUser();
+		this.shipping = product.getShipping();
 	}
 }

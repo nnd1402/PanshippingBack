@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.dto.ProductDTO;
 import com.sun.istack.NotNull;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +21,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "tbl_product")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Product {
 
 	@Id

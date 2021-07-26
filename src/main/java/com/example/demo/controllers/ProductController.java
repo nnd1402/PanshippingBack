@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,9 +58,7 @@ public class ProductController {
 	}
 
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
-	public ResponseEntity<?> add(@RequestParam(value ="product", required = true) String product, @RequestParam(value = "file", required = false) MultipartFile file) {
-		
-		ProductDTO newProduct = productService.getJson(product);
+	public ResponseEntity<?> add(@RequestBody ProductDTO newProduct, @RequestParam(value = "file", required = false) MultipartFile file) {
 		
 		if (file != null) {
 			Boolean success = productService.saveWithImage(newProduct, file);
@@ -80,13 +79,12 @@ public class ProductController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> edit(@RequestParam(value ="product", required = true) String product, @RequestParam(value = "file", required = false) MultipartFile file, @PathVariable Long id) {
+	public ResponseEntity<?> edit(@RequestBody ProductDTO newProduct, @RequestParam(value = "file", required = false) MultipartFile file, @PathVariable Long id) {
 
 		if (productService.getProduct(id) == null) {
 			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
 		
-		ProductDTO newProduct = productService.getJson(product);
 		if (file != null) {
 			Boolean success = productService.saveWithImage(newProduct, file);
 

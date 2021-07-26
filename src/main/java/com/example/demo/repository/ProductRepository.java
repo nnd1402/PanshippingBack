@@ -7,9 +7,4 @@ import com.example.demo.model.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-
-//	@Modifying
-//	@Transactional
-//	@Query("update Product p set p.image = null where p.id = :id")
-//	void deleteImageById(@Param(value = "id") Long id);
 }

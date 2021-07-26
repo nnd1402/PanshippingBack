@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.model.Product;
 import com.example.demo.repository.ProductRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -63,18 +61,6 @@ public class ProductServiceImpl implements ProductService {
 		} catch (Exception e) {
 			return false;
 		}
-	}
-	
-	public ProductDTO getJson(String product) {
-		ProductDTO productJson = new ProductDTO();
-		
-		try {
-			ObjectMapper objectMapper = new ObjectMapper();
-			productJson = objectMapper.readValue(product, ProductDTO.class);
-		} catch (IOException e) {
-			System.out.printf("Error", e.toString());
-		}
-		return productJson;
 	}
 
 	@Override

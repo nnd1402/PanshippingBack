@@ -18,6 +18,4 @@ public interface ProductService {
 	Boolean delete(Long id);
 	
 	Boolean saveImageFile(Long Id, MultipartFile file);
-	
-	ProductDTO getJson(String product);
 }

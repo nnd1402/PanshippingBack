@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.service.ProductService;
@@ -54,26 +57,75 @@ public class ProductController {
 		return new ResponseEntity<>(Const.DELETED_PRODUCT, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> add(@RequestBody ProductDTO newProduct) {
+	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
+	public ResponseEntity<?> add(@RequestBody ProductDTO newProduct, @RequestParam(value = "file", required = false) MultipartFile file) {
+		
+		if (file != null) {
+			Boolean success = productService.saveWithImage(newProduct, file);
 
-		Boolean success = productService.save(newProduct);
+			if (success) {
+				return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
+		} else {
 
-		if (success) {
-			return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
+			Boolean success = productService.save(newProduct);
+
+			if (success) {
+				return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> edit(@RequestBody ProductDTO product, @PathVariable Long id) {
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+	public ResponseEntity<?> edit(@RequestBody ProductDTO newProduct, @RequestParam(value = "file", required = false) MultipartFile file, @PathVariable Long id) {
 
 		if (productService.getProduct(id) == null) {
 			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
+		
+		if (file != null) {
+			Boolean success = productService.saveWithImage(newProduct, file);
 
-		productService.save(product);
+			if (success) {
+				return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.OK);
+			}
+			return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);
+		} else {
 
-		return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.OK);
+			Boolean success = productService.save(newProduct);
+
+			if (success) {
+				return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
+	ResponseEntity<?> getImageFile(@PathVariable Long id) {
+		ProductDTO product = productService.getProduct(id);
+
+		try {
+			if (product.getImage() == null) {
+				return new ResponseEntity<>(Const.NO_IMAGE, HttpStatus.BAD_REQUEST);
+			}
+
+			String encodedImage = Base64.getEncoder().encodeToString(product.getImage());
+			return new ResponseEntity<>(encodedImage, HttpStatus.OK);
+		} catch (NullPointerException e) {
+			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@RequestMapping(method = RequestMethod.PUT, value = "/setImage/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<?> setImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
+
+		Boolean success = productService.saveImageFile(id, file);
+		if (success) {
+			return new ResponseEntity<>(Const.SUCCESS_ADD_IMAGE, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 	}
 }

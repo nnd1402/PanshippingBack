@@ -2,10 +2,13 @@ package com.example.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.model.Product;
@@ -48,6 +51,17 @@ public class ProductServiceImpl implements ProductService {
 			return false;
 		}
 	}
+	
+	public Boolean saveWithImage(ProductDTO productDTO, MultipartFile file) {
+		Product product = new Product(productDTO, file);
+		try {
+			product.setImage(file.getBytes());
+			productRepository.save(product);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	@Override
 	public Boolean delete(Long id) {
@@ -57,5 +71,24 @@ public class ProductServiceImpl implements ProductService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Boolean saveImageFile(Long Id, MultipartFile file) {
+		try {
+			Product product = productRepository.findById(Id).get();
+
+			try {
+				product.setImage(file.getBytes());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			productRepository.save(product);
+			return true;
+
+		} catch (NoSuchElementException e) {
+			return false;
+		}
 	}
 }

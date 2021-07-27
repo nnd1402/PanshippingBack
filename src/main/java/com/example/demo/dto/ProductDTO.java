@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import java.util.List;
+
 import com.example.demo.model.Product;
 import com.example.demo.model.Shipping;
 import com.example.demo.model.User;
@@ -18,7 +20,7 @@ public class ProductDTO {
 	private int quantity;
 	private String description;
 	private User user;
-	private Shipping shipping;
+	private List<Shipping> shipping;
 
 	public ProductDTO(Product product) {
 		this.id = product.getId();
@@ -27,7 +29,7 @@ public class ProductDTO {
 		this.image = product.getImage();
 		this.quantity = product.getQuantity();
 		this.description = product.getDescription();
-		//this.user = product.getUser();
-//		this.shipping = product.getShipping();
+		this.user = product.getUser();
+		this.shipping = product.getShipping();
 	}
 }

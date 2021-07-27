@@ -54,16 +54,14 @@ public class Product {
 	@Column(name = "Description")
 	private String description;
 
-//	@ManyToOne
-//	@JoinColumn(name = "User", referencedColumnName = "Id")
-//	@JsonIgnore
-//	private User user;
+	@ManyToOne
+	@JoinColumn(name = "User", referencedColumnName = "Id")
+	@JsonIgnore
+	private User user;
 	
-//	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-//	@JsonIgnore
-//////	@ManyToOne
-////	@JoinColumn(name = "Shipping", referencedColumnName = "Id")
-//	private List<Shipping> shipping = new ArrayList<>();
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Shipping> shipping = new ArrayList<>();
 
 	public Product(ProductDTO productDTO) {
 		this.id = productDTO.getId();
@@ -72,8 +70,8 @@ public class Product {
 		this.image = productDTO.getImage();
 		this.quantity = productDTO.getQuantity();
 		this.description = productDTO.getDescription();
-//		this.user = productDTO.getUser();
-//		this.shipping = productDTO.getShipping();
+		this.user = productDTO.getUser();
+		this.shipping = productDTO.getShipping();
 	}
 
 	public Product(ProductDTO productDTO, MultipartFile file) {
@@ -83,6 +81,6 @@ public class Product {
 		this.image = productDTO.getImage();
 		this.quantity = productDTO.getQuantity();
 		this.description = productDTO.getDescription();
-//		this.user = productDTO.getUser();
+		this.user = productDTO.getUser();
 	}
 }

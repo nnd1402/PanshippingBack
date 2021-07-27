@@ -23,6 +23,6 @@ public class ShippingDTO {
 		this.start = shipping.getStart();
 		this.end = shipping.getEnd();
 		this.user = shipping.getUser();
-	//	this.product = shipping.getProduct();
+//		this.product = shipping.getProduct();
 	}
 }

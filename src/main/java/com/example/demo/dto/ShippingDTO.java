@@ -1,10 +1,7 @@
 package com.example.demo.dto;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.example.demo.model.Product;
 import com.example.demo.model.Shipping;
 import com.example.demo.model.User;
 
@@ -19,17 +16,13 @@ public class ShippingDTO {
 	private Date start;
 	private Date end;
 	private User user;
-	private List<Product> products = new ArrayList<>();
-	
-	public ShippingDTO(Long id) {
-		this.id = id;
-	}
+	private Long product;
 	
 	public ShippingDTO(Shipping shipping) {
 		this.id = shipping.getId();
 		this.start = shipping.getStart();
 		this.end = shipping.getEnd();
 		this.user = shipping.getUser();
-		this.products = shipping.getProducts();
+	//	this.product = shipping.getProduct();
 	}
 }

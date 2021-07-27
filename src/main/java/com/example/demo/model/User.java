@@ -64,10 +64,10 @@ public class User {
 	@NotNull
 	private String password;
 
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-	@JsonIgnore
-	private List<Product> products = new ArrayList<>();
-	
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//	@JsonIgnore
+//	private List<Product> products = new ArrayList<>();
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Shipping> shipments = new ArrayList<>();

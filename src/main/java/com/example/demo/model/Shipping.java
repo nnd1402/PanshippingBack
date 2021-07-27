@@ -1,17 +1,14 @@
 package com.example.demo.model;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.example.demo.dto.ShippingDTO;
@@ -44,10 +41,9 @@ public class Shipping {
 	@JsonIgnore
 	private User user;
 	
-	@OneToMany(mappedBy = "shipping", cascade = CascadeType.ALL)
-	@NotNull
-	@JsonIgnore
-	private List<Product> products = new ArrayList<>();
+	@OneToOne(optional = false)
+	@JoinColumn(name = "Product", referencedColumnName = "Id", nullable = false)
+	private Product product;
 	
 	public Shipping(Long id) {
 		this.id = id;
@@ -58,7 +54,8 @@ public class Shipping {
 		this.start = shippingDTO.getStart();
 		this.end = shippingDTO.getEnd();
 		this.user = shippingDTO.getUser();
-		this.products = shippingDTO.getProducts();
+		product = new Product();
+		this.product.setId(shippingDTO.getProduct());
 	}
 	
 }

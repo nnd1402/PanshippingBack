@@ -27,7 +27,7 @@ public class ProductDTO {
 		this.image = product.getImage();
 		this.quantity = product.getQuantity();
 		this.description = product.getDescription();
-		this.user = product.getUser();
-		this.shipping = product.getShipping();
+		//this.user = product.getUser();
+//		this.shipping = product.getShipping();
 	}
 }

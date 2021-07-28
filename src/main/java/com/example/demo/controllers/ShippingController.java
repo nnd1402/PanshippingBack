@@ -1,7 +1,9 @@
 package com.example.demo.controllers;
 
+import java.util.Date;
 import java.util.List;
 
+import org.omg.CORBA.Current;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -58,7 +60,11 @@ public class ShippingController {
 	@RequestMapping(value = "/addShipment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> add(@RequestBody ShippingDTO newShipment) {
 
-		if (newShipment.getEnd().before(newShipment.getStart())) {
+		Date currentDate = new Date();
+		if (newShipment.getEnd().before(newShipment.getStart()) 
+				|| newShipment.getStart().after(newShipment.getEnd()) 
+				|| newShipment.getEnd().before(currentDate)
+				|| newShipment.getStart().before(currentDate)) {
 			return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
 

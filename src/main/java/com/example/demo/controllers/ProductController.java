@@ -36,6 +36,16 @@ public class ProductController {
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/getProductsByUserId/{userId}", method = RequestMethod.GET)
+	ResponseEntity<?> getProductsByUser(@PathVariable Long userId) {
+		List<ProductDTO> products = productService.getProductsByUserId(userId);
+
+		if (products.isEmpty()) {
+			return new ResponseEntity<>(Const.NO_PRODUCTS_BY_USER, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	ResponseEntity<?> getProduct(@PathVariable Long id) {
 		ProductDTO product = productService.getProduct(id);
@@ -57,50 +67,30 @@ public class ProductController {
 		return new ResponseEntity<>(Const.DELETED_PRODUCT, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE} )
-	public ResponseEntity<?> add(@RequestBody ProductDTO newProduct, @RequestParam(value = "file", required = false) MultipartFile file) {
-		
-		if (file != null) {
-			Boolean success = productService.saveWithImage(newProduct, file);
+	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> add(@RequestBody ProductDTO newProduct) {
 
-			if (success) {
-				return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
-			}
-			return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
-		} else {
+		Boolean success = productService.save(newProduct);
 
-			Boolean success = productService.save(newProduct);
-
-			if (success) {
-				return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
-			}
-			return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
+		if (success) {
+			return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
 		}
+		return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-	public ResponseEntity<?> edit(@RequestBody ProductDTO newProduct, @RequestParam(value = "file", required = false) MultipartFile file, @PathVariable Long id) {
+	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> edit(@RequestBody ProductDTO newProduct, @PathVariable Long id) {
 
 		if (productService.getProduct(id) == null) {
 			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
-		
-		if (file != null) {
-			Boolean success = productService.saveWithImage(newProduct, file);
 
-			if (success) {
-				return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.OK);
-			}
-			return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);
-		} else {
+		Boolean success = productService.save(newProduct);
 
-			Boolean success = productService.save(newProduct);
-
-			if (success) {
-				return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.CREATED);
-			}
-			return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);
+		if (success) {
+			return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.CREATED);
 		}
+		return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);
 	}
 
 	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)

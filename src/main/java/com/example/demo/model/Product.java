@@ -21,7 +21,6 @@ import com.example.demo.dto.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
-import javassist.expr.NewArray;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -62,6 +61,10 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Shipping> shipping = new ArrayList<>();
+	
+	public Product(Long id) {
+		this.id = id;
+	}
 
 	public Product(ProductDTO productDTO) {
 		this.id = productDTO.getId();

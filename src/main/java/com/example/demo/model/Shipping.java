@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.example.demo.dto.ShippingDTO;
@@ -41,8 +40,9 @@ public class Shipping {
 	@JsonIgnore
 	private User user;
 	
-	@OneToOne(optional = false)
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "Product", referencedColumnName = "Id", nullable = false)
+	@JsonIgnore
 	private Product product;
 	
 	public Shipping(Long id) {
@@ -54,8 +54,7 @@ public class Shipping {
 		this.start = shippingDTO.getStart();
 		this.end = shippingDTO.getEnd();
 		this.user = shippingDTO.getUser();
-		product = new Product();
-		this.product.setId(shippingDTO.getProduct());
+		this.product = shippingDTO.getProduct();
 	}
 	
 }

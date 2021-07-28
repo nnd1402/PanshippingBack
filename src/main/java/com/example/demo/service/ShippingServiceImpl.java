@@ -11,10 +11,9 @@ import com.example.demo.dto.ShippingDTO;
 import com.example.demo.model.Shipping;
 import com.example.demo.repository.ShippingRepository;
 
-
 @Service
 public class ShippingServiceImpl implements ShippingService {
-	
+
 	@Autowired
 	private ShippingRepository shippingRepository;
 
@@ -33,12 +32,12 @@ public class ShippingServiceImpl implements ShippingService {
 		List<ShippingDTO> result = new ArrayList<>();
 		List<Shipping> shipments = shippingRepository.findAll();
 
-		for (Shipping shipment: shipments) {
+		for (Shipping shipment : shipments) {
 			result.add(new ShippingDTO(shipment));
 		}
 		return result;
 	}
-	
+
 	@Override
 	public Boolean save(ShippingDTO shippingDTO) {
 		Shipping shipment = new Shipping(shippingDTO);

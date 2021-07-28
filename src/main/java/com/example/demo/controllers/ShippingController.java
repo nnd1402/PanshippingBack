@@ -22,7 +22,7 @@ public class ShippingController {
 
 	@Autowired
 	private ShippingService shippingService;
-	
+
 	@RequestMapping(method = RequestMethod.GET)
 	ResponseEntity<?> getShipments() {
 		List<ShippingDTO> shipments = shippingService.findAll();
@@ -33,7 +33,7 @@ public class ShippingController {
 
 		return new ResponseEntity<>(shipments, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	ResponseEntity<?> getShipment(@PathVariable Long id) {
 		ShippingDTO shipment = shippingService.getShipment(id);
@@ -43,7 +43,7 @@ public class ShippingController {
 		}
 		return new ResponseEntity<>(shipment, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	ResponseEntity<?> delete(@PathVariable Long id) {
 		Boolean success = shippingService.delete(id);
@@ -54,10 +54,14 @@ public class ShippingController {
 
 		return new ResponseEntity<>(Const.DELETED_SHIPMENT, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/addShipment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> add(@RequestBody ShippingDTO newShipment) {
-		
+
+		if (newShipment.getEnd().before(newShipment.getStart())) {
+			return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
+		}
+
 		Boolean success = shippingService.save(newShipment);
 
 		if (success) {
@@ -65,14 +69,18 @@ public class ShippingController {
 		}
 		return new ResponseEntity<>(Const.FAILED_CREATION_SHIPMENT, HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> edit(@RequestBody ShippingDTO newShipment, @PathVariable Long id) {
 
 		if (shippingService.getShipment(id) == null) {
 			return new ResponseEntity<>(Const.NO_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
-		
+
+		if (newShipment.getEnd().before(newShipment.getStart())) {
+			return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
+		}
+
 		Boolean success = shippingService.update(newShipment);
 		if (success) {
 			return new ResponseEntity<>(Const.SUCCESS_UPDATE_SHIPMENT, HttpStatus.OK);

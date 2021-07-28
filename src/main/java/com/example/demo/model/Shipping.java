@@ -22,33 +22,33 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Shipping {
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Column(name = "Start")
 	@NotNull
 	private Date start;
-	
+
 	@Column(name = "End")
 	@NotNull
 	private Date end;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "User", referencedColumnName = "Id", nullable = false)
 	@JsonIgnore
 	private User user;
-	
+
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "Product", referencedColumnName = "Id", nullable = false)
 	@JsonIgnore
 	private Product product;
-	
+
 	public Shipping(Long id) {
 		this.id = id;
 	}
-	
+
 	public Shipping(ShippingDTO shippingDTO) {
 		this.id = shippingDTO.getId();
 		this.start = shippingDTO.getStart();
@@ -56,5 +56,5 @@ public class Shipping {
 		this.user = shippingDTO.getUser();
 		this.product = shippingDTO.getProduct();
 	}
-	
+
 }

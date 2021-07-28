@@ -1,6 +1,5 @@
 package com.example.demo.model;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,11 +56,11 @@ public class Product {
 	@JoinColumn(name = "User", referencedColumnName = "Id")
 	@JsonIgnore
 	private User user;
-	
+
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Shipping> shipping = new ArrayList<>();
-	
+
 	public Product(Long id) {
 		this.id = id;
 	}

@@ -25,7 +25,7 @@ public class ShippingController {
 	private ShippingService shippingService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	ResponseEntity<?> getShipments() {
+	public ResponseEntity<?> getShipments() {
 		List<ShippingDTO> shipments = shippingService.findAll();
 
 		if (shipments.isEmpty()) {
@@ -36,7 +36,7 @@ public class ShippingController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	ResponseEntity<?> getShipment(@PathVariable Long id) {
+	public ResponseEntity<?> getShipment(@PathVariable Long id) {
 		ShippingDTO shipment = shippingService.getShipment(id);
 
 		if (shipment == null) {
@@ -46,10 +46,10 @@ public class ShippingController {
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	ResponseEntity<?> delete(@PathVariable Long id) {
-		Boolean success = shippingService.delete(id);
+	public ResponseEntity<?> delete(@PathVariable Long id) {
+		Boolean isDeleted = shippingService.delete(id);
 
-		if (!success) {
+		if (!isDeleted) {
 			return new ResponseEntity<>(Const.NO_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
 
@@ -67,9 +67,8 @@ public class ShippingController {
 			return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
 
-		Boolean success = shippingService.save(newShipment);
-
-		if (success) {
+		Boolean isSaved = shippingService.save(newShipment);
+		if (isSaved) {
 			return new ResponseEntity<>(Const.CREATED_SHIPMENT, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(Const.FAILED_CREATION_SHIPMENT, HttpStatus.BAD_REQUEST);
@@ -86,8 +85,8 @@ public class ShippingController {
 			return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
 
-		Boolean success = shippingService.update(newShipment);
-		if (success) {
+		Boolean isUpdated = shippingService.update(newShipment);
+		if (isUpdated) {
 			return new ResponseEntity<>(Const.SUCCESS_UPDATE_SHIPMENT, HttpStatus.OK);
 		}
 		return new ResponseEntity<>(Const.FAILED_UPDATE_SHIPMENT, HttpStatus.BAD_REQUEST);

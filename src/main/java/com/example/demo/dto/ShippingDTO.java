@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import java.sql.Date;
+import java.util.Date;
 
 import com.example.demo.model.Product;
 import com.example.demo.model.Shipping;

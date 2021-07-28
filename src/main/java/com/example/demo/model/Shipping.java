@@ -36,12 +36,14 @@ public class Shipping {
 	private Date end;
 
 	@ManyToOne
-	@JoinColumn(name = "User", referencedColumnName = "Id", nullable = false)
+	@JoinColumn(name = "User", referencedColumnName = "Id")
+	@NotNull
 	@JsonIgnore
 	private User user;
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "Product", referencedColumnName = "Id", nullable = false)
+	@JoinColumn(name = "Product", referencedColumnName = "Id")
+	@NotNull
 	@JsonIgnore
 	private Product product;
 

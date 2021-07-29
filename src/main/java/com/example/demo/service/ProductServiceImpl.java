@@ -80,4 +80,15 @@ public class ProductServiceImpl implements ProductService {
 			return false;
 		}
 	}
+
+	@Override
+	public List<ProductDTO> getProductsByUserId(Long userId) {
+		List<ProductDTO> result = new ArrayList<>();
+		List<Product> products = productRepository.findByUserId(userId);
+
+		for (Product product : products) {
+			result.add(new ProductDTO(product));
+		}
+		return result;
+	}
 }

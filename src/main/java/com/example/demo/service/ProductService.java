@@ -10,6 +10,8 @@ public interface ProductService {
 	ProductDTO getProduct(Long id);
 
 	List<ProductDTO> getAllProducts();
+	
+	List<ProductDTO> getProductsByUserId(Long userId);
 
 	Boolean save(ProductDTO productDTO);
 

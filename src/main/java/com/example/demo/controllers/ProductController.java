@@ -36,6 +36,16 @@ public class ProductController {
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
+	@RequestMapping(value = "/getProductsByUserId/{userId}", method = RequestMethod.GET)
+	ResponseEntity<?> getProductsByUser(@PathVariable Long userId) {
+		List<ProductDTO> products = productService.getProductsByUserId(userId);
+
+		if (products.isEmpty()) {
+			return new ResponseEntity<>(Const.NO_PRODUCTS_BY_USER, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	ResponseEntity<?> getProduct(@PathVariable Long id) {
 		ProductDTO product = productService.getProduct(id);

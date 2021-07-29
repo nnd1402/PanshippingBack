@@ -1,5 +1,9 @@
 package com.example.demo.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,11 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.ProductDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import lombok.Data;
@@ -34,9 +40,9 @@ public class Product {
 	@Column(name = "Price")
 	@NotNull
 	private double price;
-	
+
 	@Lob
-	@Column (name = "Image")
+	@Column(name = "Image")
 	private byte[] image;
 
 	@Column(name = "Quantity")
@@ -47,8 +53,17 @@ public class Product {
 	private String description;
 
 	@ManyToOne
-	@JoinColumn(name = "User", referencedColumnName = "Id", nullable = false)
+	@JoinColumn(name = "User", referencedColumnName = "Id")
+	@JsonIgnore
 	private User user;
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Shipping> shipping = new ArrayList<>();
+
+	public Product(Long id) {
+		this.id = id;
+	}
 
 	public Product(ProductDTO productDTO) {
 		this.id = productDTO.getId();
@@ -58,6 +73,7 @@ public class Product {
 		this.quantity = productDTO.getQuantity();
 		this.description = productDTO.getDescription();
 		this.user = productDTO.getUser();
+		this.shipping = productDTO.getShipping();
 	}
 
 	public Product(ProductDTO productDTO, MultipartFile file) {

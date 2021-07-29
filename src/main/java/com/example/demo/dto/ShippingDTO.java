@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import com.example.demo.model.Product;
 import com.example.demo.model.Shipping;
@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 public class ShippingDTO {
 
 	private Long id;
-	private Date start;
-	private Date end;
+	private LocalDateTime start;
+	private LocalDateTime end;
 	private User user;
 	private Product product;
 

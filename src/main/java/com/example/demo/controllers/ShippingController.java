@@ -1,6 +1,6 @@
 package com.example.demo.controllers;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,11 +59,10 @@ public class ShippingController {
 	@RequestMapping(value = "/addShipment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> add(@RequestBody ShippingDTO newShipment) {
 
-		Date currentDate = new Date();
-		if (newShipment.getEnd().before(newShipment.getStart()) 
-				|| newShipment.getStart().after(newShipment.getEnd()) 
-				|| newShipment.getEnd().before(currentDate)
-				|| newShipment.getStart().before(currentDate)) {
+		LocalDateTime currentDate = LocalDateTime.now();
+		if (newShipment.getEnd().isBefore(newShipment.getStart())
+				|| newShipment.getStart().isAfter(newShipment.getEnd()) || newShipment.getEnd().isBefore(currentDate)
+				|| newShipment.getStart().isBefore(currentDate)) {
 			return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
 
@@ -81,7 +80,7 @@ public class ShippingController {
 			return new ResponseEntity<>(Const.NO_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
 
-		if (newShipment.getEnd().before(newShipment.getStart())) {
+		if (newShipment.getEnd().isBefore(newShipment.getStart())) {
 			return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
 

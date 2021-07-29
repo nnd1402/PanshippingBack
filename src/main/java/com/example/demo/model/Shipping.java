@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,11 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 import com.example.demo.dto.ShippingDTO;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
@@ -34,13 +28,11 @@ public class Shipping {
 
 	@Column(name = "Start")
 	@NotNull
-	@DateTimeFormat(iso = ISO.DATE_TIME)
-	private Date start;
+	private LocalDateTime start;
 
 	@Column(name = "End")
 	@NotNull
-	@DateTimeFormat(iso = ISO.DATE_TIME)
-	private Date end;
+	private LocalDateTime end;
 
 	@ManyToOne
 	@JoinColumn(name = "User", referencedColumnName = "Id")
@@ -54,9 +46,6 @@ public class Shipping {
 	@JsonIgnore
 	private Product product;
 
-	//Proba sa ovim formaterom, kao i sa Springovim DateTimeFormat anotacijom gore
-	//DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-	
 	public Shipping(Long id) {
 		this.id = id;
 	}

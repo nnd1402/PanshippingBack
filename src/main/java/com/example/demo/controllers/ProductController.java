@@ -48,9 +48,9 @@ public class ProductController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	ResponseEntity<?> delete(@PathVariable Long id) {
-		Boolean success = productService.delete(id);
+		Boolean isDeleted = productService.delete(id);
 
-		if (!success) {
+		if (!isDeleted) {
 			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
 
@@ -60,9 +60,9 @@ public class ProductController {
 	@RequestMapping(value = "/addProduct", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> add(@RequestBody ProductDTO newProduct) {
 
-		Boolean success = productService.save(newProduct);
+		Boolean isSaved = productService.save(newProduct);
 
-		if (success) {
+		if (isSaved) {
 			return new ResponseEntity<>(Const.CREATED_PRODUCT, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(Const.FAILED_CREATION_PRODUCT, HttpStatus.BAD_REQUEST);
@@ -75,9 +75,9 @@ public class ProductController {
 			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 		}
 
-		Boolean success = productService.save(newProduct);
+		Boolean isUpdated = productService.save(newProduct);
 
-		if (success) {
+		if (isUpdated) {
 			return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);

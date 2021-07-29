@@ -40,9 +40,14 @@ public class ShippingServiceImpl implements ShippingService {
 
 	@Override
 	public Boolean save(ShippingDTO shippingDTO) {
-		Shipping shipment = new Shipping(shippingDTO);
-		shippingRepository.save(shipment);
-		return true;
+		try {
+			Shipping shipment = new Shipping(shippingDTO);
+			shippingRepository.save(shipment);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+		
 	}
 
 	@Override

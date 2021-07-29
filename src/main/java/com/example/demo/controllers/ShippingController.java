@@ -60,10 +60,14 @@ public class ShippingController {
 	public ResponseEntity<?> add(@RequestBody ShippingDTO newShipment) {
 
 		LocalDateTime currentDate = LocalDateTime.now();
-		if (newShipment.getEnd().isBefore(newShipment.getStart())
-				|| newShipment.getStart().isAfter(newShipment.getEnd()) || newShipment.getEnd().isBefore(currentDate)
-				|| newShipment.getStart().isBefore(currentDate)) {
-			return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
+		try {
+			if (newShipment.getEnd().isBefore(newShipment.getStart())
+					|| newShipment.getStart().isAfter(newShipment.getEnd())
+					|| newShipment.getEnd().isBefore(currentDate) || newShipment.getStart().isBefore(currentDate)) {
+				return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(Const.FAILED_FILL_ALL_FIELDS, HttpStatus.BAD_REQUEST);
 		}
 
 		Boolean isSaved = shippingService.save(newShipment);

@@ -14,8 +14,6 @@ public interface ProductService {
 	List<ProductDTO> getProductsByUserId(Long userId);
 
 	Boolean save(ProductDTO productDTO);
-	
-	Boolean saveWithImage(ProductDTO productDTO, MultipartFile file);
 
 	Boolean delete(Long id);
 	

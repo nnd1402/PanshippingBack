@@ -51,17 +51,6 @@ public class ProductServiceImpl implements ProductService {
 			return false;
 		}
 	}
-	
-	public Boolean saveWithImage(ProductDTO productDTO, MultipartFile file) {
-		Product product = new Product(productDTO, file);
-		try {
-			product.setImage(file.getBytes());
-			productRepository.save(product);
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
 
 	@Override
 	public Boolean delete(Long id) {

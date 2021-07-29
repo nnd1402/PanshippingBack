@@ -77,21 +77,28 @@ public class ShippingController {
 		return new ResponseEntity<>(Const.FAILED_CREATION_SHIPMENT, HttpStatus.BAD_REQUEST);
 	}
 
-	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> edit(@RequestBody ShippingDTO newShipment, @PathVariable Long id) {
-
-		if (shippingService.getShipment(id) == null) {
-			return new ResponseEntity<>(Const.NO_SHIPMENT, HttpStatus.BAD_REQUEST);
-		}
-
-		if (newShipment.getEnd().isBefore(newShipment.getStart())) {
-			return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
-		}
-
-		Boolean isUpdated = shippingService.update(newShipment);
-		if (isUpdated) {
-			return new ResponseEntity<>(Const.SUCCESS_UPDATE_SHIPMENT, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(Const.FAILED_UPDATE_SHIPMENT, HttpStatus.BAD_REQUEST);
-	}
+//	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<?> edit(@RequestBody ShippingDTO newShipment, @PathVariable Long id) {
+//
+//		if (shippingService.getShipment(id) == null) {
+//			return new ResponseEntity<>(Const.NO_SHIPMENT, HttpStatus.BAD_REQUEST);
+//		}
+//
+//		LocalDateTime currentDate = LocalDateTime.now();
+//		try {
+//			if (newShipment.getEnd().isBefore(newShipment.getStart())
+//					|| newShipment.getStart().isAfter(newShipment.getEnd())
+//					|| newShipment.getEnd().isBefore(currentDate) || newShipment.getStart().isBefore(currentDate)) {
+//				return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
+//			}
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(Const.FAILED_FILL_ALL_FIELDS, HttpStatus.BAD_REQUEST);
+//		}
+//
+//		Boolean isUpdated = shippingService.update(newShipment);
+//		if (isUpdated) {
+//			return new ResponseEntity<>(Const.SUCCESS_UPDATE_SHIPMENT, HttpStatus.OK);
+//		}
+//		return new ResponseEntity<>(Const.FAILED_UPDATE_SHIPMENT, HttpStatus.BAD_REQUEST);
+//	}
 }

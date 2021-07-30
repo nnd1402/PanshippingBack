@@ -36,7 +36,7 @@ public class ProductController {
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getProductsByUserId/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getProductsByUser/{userId}", method = RequestMethod.GET)
 	ResponseEntity<?> getProductsByUser(@PathVariable Long userId) {
 		List<ProductDTO> products = productService.getProductsByUserId(userId);
 
@@ -46,7 +46,7 @@ public class ProductController {
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getBoughtProducts/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getBoughtProductsByUser/{userId}", method = RequestMethod.GET)
 	ResponseEntity<?> getBoughtProducts(@PathVariable Long userId) {
 		List<ProductDTO> products = productService.getBoughtProducts(userId);
 
@@ -56,7 +56,7 @@ public class ProductController {
 
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/getAvailableToBuy/{userId}", method = RequestMethod.GET)
 	ResponseEntity<?> getNotBoughtProducts(@PathVariable Long userId) {
 		List<ProductDTO> products = productService.getAvailableToBuy(userId);

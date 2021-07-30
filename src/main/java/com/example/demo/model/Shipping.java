@@ -37,7 +37,6 @@ public class Shipping {
 	@ManyToOne
 	@JoinColumn(name = "User", referencedColumnName = "Id")
 	@NotNull
-	@JsonIgnore
 	private User user;
 
 	@ManyToOne(optional = false)

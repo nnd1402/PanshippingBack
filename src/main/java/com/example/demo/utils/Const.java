@@ -11,6 +11,9 @@ public class Const {
 	public static final String SUCCESS_UPDATE_PRODUCT = "Successfully updated product";
 	public static final String FAILED_UPDATE_PRODUCT = "Failed to update product";
 	public static final String NO_PRODUCTS_BY_USER = "There are no products made by this user";
+	public static final String NO_PRODUCTS_BOUGHT = "There are no products bought by this user";
+	public static final String NO_PRODUCTS_AVAILABLE = "No products are available to buy";
+
 
 	public static final String CREATED_USER = "User successfully created";
 	public static final String FAILED_CREATION_USER = "Failed to create user, please fill in all fields correctly";

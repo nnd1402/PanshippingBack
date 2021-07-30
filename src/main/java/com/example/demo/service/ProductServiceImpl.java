@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.model.Product;
+import com.example.demo.model.Shipping;
 import com.example.demo.repository.ProductRepository;
 
 @Service
@@ -90,5 +90,40 @@ public class ProductServiceImpl implements ProductService {
 			result.add(new ProductDTO(product));
 		}
 		return result;
+	}
+
+	@Override
+	public List<ProductDTO> getBoughtProducts(Long userId) {
+		List<ProductDTO> products = getAllProducts();
+		List<ProductDTO> results = new ArrayList<>();
+		for(ProductDTO product : products) {
+			boolean isFound = false;
+			for(Shipping shipping : product.getShipping()) {
+				if(shipping.getUser().getId() == userId) {
+					isFound = true;
+				}
+			}
+			if(isFound) {
+				results.add(product);
+			}
+			
+		}
+		return results;
+	}
+	
+	@Override
+	public List<ProductDTO> getAvailableToBuy(Long userId) {
+		List<ProductDTO> products = getAllProducts();
+		List<ProductDTO> results = new ArrayList<>();
+		for(ProductDTO product : products) {
+			boolean isFound = false;
+			if(product.getShipping().isEmpty() && product.getId() != userId) {
+				isFound = true;
+			}
+			if(isFound) {
+				results.add(product);
+			}			
+		}
+		return results;
 	}
 }

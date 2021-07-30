@@ -15,4 +15,6 @@ public interface ShippingService {
 	Boolean update(ShippingDTO shippingDTO);
 
 	Boolean delete(Long id);
+
+	String getShippingDate();
 }

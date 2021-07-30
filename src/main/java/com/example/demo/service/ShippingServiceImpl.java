@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,6 +70,29 @@ public class ShippingServiceImpl implements ShippingService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public String getShippingDate() {
+		Shipping shipment = new Shipping();
+		String stateOne = "Preparing for delivery";
+		String stateTwo = "Delivery in progress";
+		String stateThree = "Product delivered";
+		String stateFour = "No delivery";
+		LocalDateTime startDate = LocalDateTime.now();
+		LocalDateTime deliveryDate = LocalDateTime.now().plusDays(1);
+		LocalDateTime endDate = LocalDateTime.now().plusDays(2);
+		if(startDate.isBefore(deliveryDate) && startDate.isBefore(endDate)) {
+			shippingRepository.save(shipment);
+			return stateOne;	
+		}
+		if(deliveryDate.isAfter(startDate) && deliveryDate.isBefore(endDate)) {
+			return stateTwo;
+		}
+		if(endDate.isAfter(startDate) && endDate.isAfter(deliveryDate)) {
+			return stateThree;
+		}
+		return stateFour;
 	}
 
 }

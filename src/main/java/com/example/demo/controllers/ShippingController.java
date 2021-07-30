@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ShippingDTO;
@@ -57,21 +58,10 @@ public class ShippingController {
 	}
 
 	@RequestMapping(value = "/addShipment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> add(@RequestBody ShippingDTO newShipment) {
+	public ResponseEntity<?> add(@RequestParam Long userId, @RequestParam Long productId) {
 
-		LocalDateTime currentDate = LocalDateTime.now();
-		try {
-			if (newShipment.getEnd().isBefore(newShipment.getStart())
-					|| newShipment.getStart().isAfter(newShipment.getEnd())
-					|| newShipment.getEnd().isBefore(currentDate) || newShipment.getStart().isBefore(currentDate)) {
-				return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
-			}
-		} catch (Exception e) {
-			return new ResponseEntity<>(Const.FAILED_FILL_ALL_FIELDS, HttpStatus.BAD_REQUEST);
-		}
-
-		Boolean isSaved = shippingService.save(newShipment);
-		if (isSaved) {
+		String isSaved = shippingService.getShippingDate();
+		if (isSaved != null) {
 			return new ResponseEntity<>(Const.CREATED_SHIPMENT, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(Const.FAILED_CREATION_SHIPMENT, HttpStatus.BAD_REQUEST);

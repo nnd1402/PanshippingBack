@@ -36,13 +36,35 @@ public class ProductController {
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/getProductsByUserId/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/getProductsByUser/{userId}", method = RequestMethod.GET)
 	ResponseEntity<?> getProductsByUser(@PathVariable Long userId) {
 		List<ProductDTO> products = productService.getProductsByUserId(userId);
 
 		if (products.isEmpty()) {
 			return new ResponseEntity<>(Const.NO_PRODUCTS_BY_USER, HttpStatus.BAD_REQUEST);
 		}
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/getBoughtProductsByUser/{userId}", method = RequestMethod.GET)
+	ResponseEntity<?> getBoughtProducts(@PathVariable Long userId) {
+		List<ProductDTO> products = productService.getBoughtProducts(userId);
+
+		if (products.isEmpty()) {
+			return new ResponseEntity<>(Const.NO_PRODUCTS_BOUGHT, HttpStatus.BAD_REQUEST);
+		}
+
+		return new ResponseEntity<>(products, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/getAvailableToBuy/{userId}", method = RequestMethod.GET)
+	ResponseEntity<?> getNotBoughtProducts(@PathVariable Long userId) {
+		List<ProductDTO> products = productService.getAvailableToBuy(userId);
+
+		if (products.isEmpty()) {
+			return new ResponseEntity<>(Const.NO_PRODUCTS_AVAILABLE, HttpStatus.BAD_REQUEST);
+		}
+
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 

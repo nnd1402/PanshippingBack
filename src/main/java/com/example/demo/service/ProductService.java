@@ -18,4 +18,8 @@ public interface ProductService {
 	Boolean delete(Long id);
 	
 	Boolean saveImageFile(Long Id, MultipartFile file);
+
+	List<ProductDTO> getBoughtProducts(Long userId);
+
+	List<ProductDTO> getAvailableToBuy(Long userId);
 }

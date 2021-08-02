@@ -51,6 +51,9 @@ public class Product {
 
 	@Column(name = "Description")
 	private String description;
+	
+	@Column(name = "IsOrdered")
+	private Boolean isOrdered;
 
 	@ManyToOne
 	@JoinColumn(name = "User", referencedColumnName = "Id")

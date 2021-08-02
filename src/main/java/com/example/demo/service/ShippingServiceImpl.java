@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -8,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.ShippingDTO;
+import com.example.demo.dto.ShippingRequestDTO;
 import com.example.demo.model.Shipping;
 import com.example.demo.repository.ShippingRepository;
+import com.example.demo.utils.Const;
 
 @Service
 public class ShippingServiceImpl implements ShippingService {
@@ -39,15 +42,17 @@ public class ShippingServiceImpl implements ShippingService {
 	}
 
 	@Override
-	public Boolean save(ShippingDTO shippingDTO) {
+	public Boolean save(ShippingRequestDTO shippingRequestDTO) {
 		try {
-			Shipping shipment = new Shipping(shippingDTO);
+			LocalDateTime startDate = getShippingStartDate();
+			LocalDateTime endDate = getShippingEndDate(startDate);
+			Shipping shipment = new Shipping(shippingRequestDTO.getUserId(), shippingRequestDTO.getProductId(),
+					startDate, endDate);
 			shippingRepository.save(shipment);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
-		
 	}
 
 	@Override
@@ -71,4 +76,11 @@ public class ShippingServiceImpl implements ShippingService {
 		return false;
 	}
 
+	private LocalDateTime getShippingStartDate() {
+		return LocalDateTime.now().plusDays(Const.PENDING_DAYS);
+	}
+
+	private LocalDateTime getShippingEndDate(LocalDateTime startDate) {
+		return startDate.plusDays(Const.SHIPPING_DAYS);
+	}
 }

@@ -17,7 +17,7 @@ public class ShippingDTO {
 	private LocalDateTime start;
 	private LocalDateTime end;
 	private User user;
-	private Product product;
+	private Product product; 
 
 	public ShippingDTO(Shipping shipping) {
 		this.id = shipping.getId();
@@ -25,6 +25,5 @@ public class ShippingDTO {
 		this.end = shipping.getEnd();
 		this.user = shipping.getUser();
 		this.product = shipping.getProduct();
-
 	}
 }

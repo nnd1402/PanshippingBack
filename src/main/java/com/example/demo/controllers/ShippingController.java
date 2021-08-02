@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ShippingDTO;
+import com.example.demo.dto.ShippingRequestDTO;
 import com.example.demo.service.ShippingService;
 import com.example.demo.utils.Const;
 
@@ -31,7 +31,6 @@ public class ShippingController {
 		if (shipments.isEmpty()) {
 			return new ResponseEntity<>(Const.NO_SHIPMENTS, HttpStatus.BAD_REQUEST);
 		}
-
 		return new ResponseEntity<>(shipments, HttpStatus.OK);
 	}
 
@@ -52,25 +51,13 @@ public class ShippingController {
 		if (!isDeleted) {
 			return new ResponseEntity<>(Const.NO_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
-
 		return new ResponseEntity<>(Const.DELETED_SHIPMENT, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/addShipment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> add(@RequestBody ShippingDTO newShipment) {
+	public ResponseEntity<?> add(@RequestBody ShippingRequestDTO shippingRequest) {
 
-		LocalDateTime currentDate = LocalDateTime.now();
-		try {
-			if (newShipment.getEnd().isBefore(newShipment.getStart())
-					|| newShipment.getStart().isAfter(newShipment.getEnd())
-					|| newShipment.getEnd().isBefore(currentDate) || newShipment.getStart().isBefore(currentDate)) {
-				return new ResponseEntity<>(Const.FAILED_DATE_SHIPMENT, HttpStatus.BAD_REQUEST);
-			}
-		} catch (Exception e) {
-			return new ResponseEntity<>(Const.FAILED_FILL_ALL_FIELDS, HttpStatus.BAD_REQUEST);
-		}
-
-		Boolean isSaved = shippingService.save(newShipment);
+		Boolean isSaved = shippingService.save(shippingRequest);
 		if (isSaved) {
 			return new ResponseEntity<>(Const.CREATED_SHIPMENT, HttpStatus.CREATED);
 		}

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 
 import com.example.demo.dto.ShippingDTO;
+import com.example.demo.dto.ShippingRequestDTO;
 
 public interface ShippingService {
 
@@ -10,7 +11,7 @@ public interface ShippingService {
 
 	List<ShippingDTO> findAll();
 
-	Boolean save(ShippingDTO shippingDTO);
+	Boolean save(ShippingRequestDTO shippingDTO);
 	
 	Boolean update(ShippingDTO shippingDTO);
 

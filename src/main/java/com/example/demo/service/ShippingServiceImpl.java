@@ -11,17 +11,14 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.ShippingDTO;
 import com.example.demo.dto.ShippingRequestDTO;
 import com.example.demo.model.Shipping;
-import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.ShippingRepository;
+import com.example.demo.utils.Const;
 
 @Service
 public class ShippingServiceImpl implements ShippingService {
 
 	@Autowired
 	private ShippingRepository shippingRepository;
-
-	@Autowired
-	ProductRepository productRepository;
 
 	@Override
 	public ShippingDTO getShipment(Long id) {
@@ -80,10 +77,10 @@ public class ShippingServiceImpl implements ShippingService {
 	}
 
 	private LocalDateTime getShippingStartDate() {
-		return LocalDateTime.now().plusDays(1);
+		return LocalDateTime.now().plusDays(Const.PENDING_DAYS);
 	}
 
 	private LocalDateTime getShippingEndDate(LocalDateTime startDate) {
-		return startDate.plusDays(2);
+		return startDate.plusDays(Const.SHIPPING_DAYS);
 	}
 }

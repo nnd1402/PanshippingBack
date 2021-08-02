@@ -38,4 +38,7 @@ public class Const {
 
 	public static final String FAILED_DATE_SHIPMENT = "Need to set the dates correctly";
 	public static final String FAILED_FILL_ALL_FIELDS = "Please fill all fields correctly";
+	
+	public static final int PENDING_DAYS = 1;
+	public static final int SHIPPING_DAYS = 2;
 }

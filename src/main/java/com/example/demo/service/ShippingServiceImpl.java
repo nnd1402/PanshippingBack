@@ -13,7 +13,6 @@ import com.example.demo.dto.ShippingRequestDTO;
 import com.example.demo.model.Shipping;
 import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.ShippingRepository;
-import com.example.demo.utils.Const;
 
 @Service
 public class ShippingServiceImpl implements ShippingService {
@@ -26,10 +25,10 @@ public class ShippingServiceImpl implements ShippingService {
 
 	@Override
 	public ShippingDTO getShipment(Long id) {
-		Shipping shipment = shippingRepository.findById(id).get();
+		Optional<Shipping> shipment = shippingRepository.findById(id);
 
-		if (shipment != null) {
-			return new ShippingDTO(shipment, getState(shipment));
+		if (shipment.isPresent()) {
+			return new ShippingDTO(shipment.get());
 		}
 		return null;
 	}
@@ -40,7 +39,7 @@ public class ShippingServiceImpl implements ShippingService {
 		List<Shipping> shipments = shippingRepository.findAll();
 
 		for (Shipping shipment : shipments) {
-			result.add(new ShippingDTO(shipment, getState(shipment)));
+			result.add(new ShippingDTO(shipment));
 		}
 		return result;
 	}
@@ -86,15 +85,5 @@ public class ShippingServiceImpl implements ShippingService {
 
 	private LocalDateTime getShippingEndDate(LocalDateTime startDate) {
 		return startDate.plusDays(2);
-	}
-
-	private String getState(Shipping shipping) {
-		if (LocalDateTime.now().isBefore(shipping.getStart())) {
-			return Const.PREPARING_DELIVERY;
-		} else if (LocalDateTime.now().isBefore(shipping.getEnd())) {
-			return Const.DELIVERY_IN_PROGRESS;
-		} else {
-			return Const.DELIVERED;
-		}
 	}
 }

@@ -17,15 +17,13 @@ public class ShippingDTO {
 	private LocalDateTime start;
 	private LocalDateTime end;
 	private User user;
-	private Product product;
-	private String state; 
+	private Product product; 
 
-	public ShippingDTO(Shipping shipping, String state) {
+	public ShippingDTO(Shipping shipping) {
 		this.id = shipping.getId();
 		this.start = shipping.getStart();
 		this.end = shipping.getEnd();
 		this.user = shipping.getUser();
 		this.product = shipping.getProduct();
-		this.state = state;
 	}
 }

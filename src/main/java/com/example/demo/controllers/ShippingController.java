@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.ShippingDTO;
+import com.example.demo.dto.ShippingRequestDTO;
 import com.example.demo.service.ShippingService;
 import com.example.demo.utils.Const;
 
@@ -32,7 +31,6 @@ public class ShippingController {
 		if (shipments.isEmpty()) {
 			return new ResponseEntity<>(Const.NO_SHIPMENTS, HttpStatus.BAD_REQUEST);
 		}
-
 		return new ResponseEntity<>(shipments, HttpStatus.OK);
 	}
 
@@ -53,15 +51,14 @@ public class ShippingController {
 		if (!isDeleted) {
 			return new ResponseEntity<>(Const.NO_SHIPMENT, HttpStatus.BAD_REQUEST);
 		}
-
 		return new ResponseEntity<>(Const.DELETED_SHIPMENT, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/addShipment", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<?> add(@RequestParam Long userId, @RequestParam Long productId) {
+	public ResponseEntity<?> add(@RequestBody ShippingRequestDTO shippingRequest) {
 
-		String isSaved = shippingService.getShippingDate();
-		if (isSaved != null) {
+		Boolean isSaved = shippingService.save(shippingRequest);
+		if (isSaved) {
 			return new ResponseEntity<>(Const.CREATED_SHIPMENT, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(Const.FAILED_CREATION_SHIPMENT, HttpStatus.BAD_REQUEST);

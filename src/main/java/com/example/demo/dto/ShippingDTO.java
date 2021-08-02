@@ -18,13 +18,14 @@ public class ShippingDTO {
 	private LocalDateTime end;
 	private User user;
 	private Product product;
+	private String state; 
 
-	public ShippingDTO(Shipping shipping) {
+	public ShippingDTO(Shipping shipping, String state) {
 		this.id = shipping.getId();
 		this.start = shipping.getStart();
 		this.end = shipping.getEnd();
 		this.user = shipping.getUser();
 		this.product = shipping.getProduct();
-
+		this.state = state;
 	}
 }

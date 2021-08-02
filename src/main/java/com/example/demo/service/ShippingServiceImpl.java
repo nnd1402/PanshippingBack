@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.ShippingDTO;
+import com.example.demo.dto.ShippingRequestDTO;
 import com.example.demo.model.Shipping;
+import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.ShippingRepository;
+import com.example.demo.utils.Const;
 
 @Service
 public class ShippingServiceImpl implements ShippingService {
@@ -18,12 +21,15 @@ public class ShippingServiceImpl implements ShippingService {
 	@Autowired
 	private ShippingRepository shippingRepository;
 
+	@Autowired
+	ProductRepository productRepository;
+
 	@Override
 	public ShippingDTO getShipment(Long id) {
-		Optional<Shipping> shipment = shippingRepository.findById(id);
+		Shipping shipment = shippingRepository.findById(id).get();
 
-		if (shipment.isPresent()) {
-			return new ShippingDTO(shipment.get());
+		if (shipment != null) {
+			return new ShippingDTO(shipment, getState(shipment));
 		}
 		return null;
 	}
@@ -34,21 +40,23 @@ public class ShippingServiceImpl implements ShippingService {
 		List<Shipping> shipments = shippingRepository.findAll();
 
 		for (Shipping shipment : shipments) {
-			result.add(new ShippingDTO(shipment));
+			result.add(new ShippingDTO(shipment, getState(shipment)));
 		}
 		return result;
 	}
 
 	@Override
-	public Boolean save(ShippingDTO shippingDTO) {
+	public Boolean save(ShippingRequestDTO shippingRequestDTO) {
 		try {
-			Shipping shipment = new Shipping(shippingDTO);
+			LocalDateTime startDate = getShippingStartDate();
+			LocalDateTime endDate = getShippingEndDate(startDate);
+			Shipping shipment = new Shipping(shippingRequestDTO.getUserId(), shippingRequestDTO.getProductId(),
+					startDate, endDate);
 			shippingRepository.save(shipment);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
-		
 	}
 
 	@Override
@@ -72,27 +80,21 @@ public class ShippingServiceImpl implements ShippingService {
 		return false;
 	}
 
-	@Override
-	public String getShippingDate() {
-		Shipping shipment = new Shipping();
-		String stateOne = "Preparing for delivery";
-		String stateTwo = "Delivery in progress";
-		String stateThree = "Product delivered";
-		String stateFour = "No delivery";
-		LocalDateTime startDate = LocalDateTime.now();
-		LocalDateTime deliveryDate = LocalDateTime.now().plusDays(1);
-		LocalDateTime endDate = LocalDateTime.now().plusDays(2);
-		if(startDate.isBefore(deliveryDate) && startDate.isBefore(endDate)) {
-			shippingRepository.save(shipment);
-			return stateOne;	
-		}
-		if(deliveryDate.isAfter(startDate) && deliveryDate.isBefore(endDate)) {
-			return stateTwo;
-		}
-		if(endDate.isAfter(startDate) && endDate.isAfter(deliveryDate)) {
-			return stateThree;
-		}
-		return stateFour;
+	private LocalDateTime getShippingStartDate() {
+		return LocalDateTime.now().plusDays(1);
 	}
 
+	private LocalDateTime getShippingEndDate(LocalDateTime startDate) {
+		return startDate.plusDays(2);
+	}
+
+	private String getState(Shipping shipping) {
+		if (LocalDateTime.now().isBefore(shipping.getStart())) {
+			return Const.PREPARING_DELIVERY;
+		} else if (LocalDateTime.now().isBefore(shipping.getEnd())) {
+			return Const.DELIVERY_IN_PROGRESS;
+		} else {
+			return Const.DELIVERED;
+		}
+	}
 }

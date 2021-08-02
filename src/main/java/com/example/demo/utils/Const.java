@@ -38,4 +38,8 @@ public class Const {
 
 	public static final String FAILED_DATE_SHIPMENT = "Need to set the dates correctly";
 	public static final String FAILED_FILL_ALL_FIELDS = "Please fill all fields correctly";
+	
+	public static final String PREPARING_DELIVERY = "Preparing package for delivery";
+	public static final String DELIVERY_IN_PROGRESS = "Delivery in progress";
+	public static final String DELIVERED = "The package has been delivered";
 }

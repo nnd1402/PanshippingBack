@@ -57,5 +57,12 @@ public class Shipping {
 		this.user = shippingDTO.getUser();
 		this.product = shippingDTO.getProduct();
 	}
+	
+	public Shipping(Long userId, Long productId, LocalDateTime start, LocalDateTime end) {
+		this.user = new User(userId);
+		this.product = new Product(productId);
+		this.start = start;
+		this.end = end;
+	}
 
 }

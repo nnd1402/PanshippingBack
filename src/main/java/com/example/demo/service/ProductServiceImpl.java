@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductDTO> results = new ArrayList<>();
 		for(ProductDTO product : products) {
 			boolean isFound = false;
-			if(product.getShipping().isEmpty() && product.getId() != userId) {
+			if(product.getShipping().isEmpty() && product.getUser().getId() != userId) {
 				isFound = true;
 			}
 			if(isFound) {

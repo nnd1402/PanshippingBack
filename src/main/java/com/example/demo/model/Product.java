@@ -53,8 +53,8 @@ public class Product {
 	@Column(name = "Description")
 	private String description;
 	
-	@Column(name = "IsOrdered")
-	private Boolean isOrdered;
+	@Column(name = "Ordered", insertable = false)
+	private Boolean ordered;
 
 	@ManyToOne
 	@JoinColumn(name = "User", referencedColumnName = "Id")
@@ -76,7 +76,7 @@ public class Product {
 		this.image = productDTO.getImage();
 		this.quantity = productDTO.getQuantity();
 		this.description = productDTO.getDescription();
-		this.isOrdered = productDTO.getIsOrdered();
+		this.ordered = productDTO.getOrdered();
 		this.user = productDTO.getUser();
 		this.shipping = productDTO.getShipping();
 	}

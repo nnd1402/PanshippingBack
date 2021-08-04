@@ -54,7 +54,7 @@ public class ShippingServiceImpl implements ShippingService {
 			Shipping shipment = new Shipping(shippingRequestDTO.getUserId(), shippingRequestDTO.getProductId(),
 					startDate, endDate);
 			Product product = productRepository.getById(shippingRequestDTO.getProductId());
-			product.setIsOrdered(true);
+			product.setOrdered(true);
 			shippingRepository.save(shipment);
 			return true;
 		} catch (Exception e) {

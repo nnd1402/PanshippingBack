@@ -75,6 +75,7 @@ public class Product {
 		this.image = productDTO.getImage();
 		this.quantity = productDTO.getQuantity();
 		this.description = productDTO.getDescription();
+		this.isOrdered = productDTO.getIsOrdered();
 		this.user = productDTO.getUser();
 		this.shipping = productDTO.getShipping();
 	}

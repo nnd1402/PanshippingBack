@@ -94,36 +94,23 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<ProductDTO> getBoughtProducts(Long userId) {
-		List<ProductDTO> products = getAllProducts();
-		List<ProductDTO> results = new ArrayList<>();
-		for(ProductDTO product : products) {
-			boolean isFound = false;
-			for(Shipping shipping : product.getShipping()) {
-				if(shipping.getUser().getId() == userId) {
-					isFound = true;
-				}
-			}
-			if(isFound) {
-				results.add(product);
-			}
-			
+		List<ProductDTO> result = new ArrayList<>();
+		List<Product> products = productRepository.findByOrderedAndShippingUserId(true, userId);
+
+		for (Product product : products) {
+			result.add(new ProductDTO(product));
 		}
-		return results;
+		return result;
 	}
 	
 	@Override
 	public List<ProductDTO> getAvailableToBuy(Long userId) {
-		List<ProductDTO> products = getAllProducts();
-		List<ProductDTO> results = new ArrayList<>();
-		for(ProductDTO product : products) {
-			boolean isFound = false;
-			if(product.getShipping().isEmpty() && product.getUser().getId() != userId) {
-				isFound = true;
-			}
-			if(isFound) {
-				results.add(product);
-			}			
+		List<ProductDTO> result = new ArrayList<>();
+		List<Product> products = productRepository.findByOrderedAndUserIdNot(false, userId);
+
+		for (Product product : products) {
+			result.add(new ProductDTO(product));
 		}
-		return results;
+		return result;
 	}
 }

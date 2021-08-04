@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -30,7 +31,7 @@ import lombok.NoArgsConstructor;
 public class Product {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(name = "Name")
@@ -51,6 +52,9 @@ public class Product {
 
 	@Column(name = "Description")
 	private String description;
+	
+	@Column(name = "Ordered", insertable = false)
+	private Boolean ordered;
 
 	@ManyToOne
 	@JoinColumn(name = "User", referencedColumnName = "Id")
@@ -72,6 +76,7 @@ public class Product {
 		this.image = productDTO.getImage();
 		this.quantity = productDTO.getQuantity();
 		this.description = productDTO.getDescription();
+		this.ordered = productDTO.getOrdered();
 		this.user = productDTO.getUser();
 		this.shipping = productDTO.getShipping();
 	}

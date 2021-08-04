@@ -19,6 +19,7 @@ public class ProductDTO {
 	private byte[] image;
 	private int quantity;
 	private String description;
+	private Boolean ordered;
 	private User user;
 	private List<Shipping> shipping;
 
@@ -29,6 +30,7 @@ public class ProductDTO {
 		this.image = product.getImage();
 		this.quantity = product.getQuantity();
 		this.description = product.getDescription();
+		this.ordered = product.getOrdered();
 		this.user = product.getUser();
 		this.shipping = product.getShipping();
 	}

@@ -11,4 +11,8 @@ import com.example.demo.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
 	List<Product> findByUserId(Long userId);
+
+	List<Product> findByOrderedAndShippingUserId(Boolean ordered, Long userId);
+	
+	List<Product> findByOrderedAndUserIdNot(Boolean ordered, Long userId);
 }

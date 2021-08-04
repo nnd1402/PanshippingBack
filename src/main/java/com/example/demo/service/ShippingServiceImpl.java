@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ShippingDTO;
 import com.example.demo.dto.ShippingRequestDTO;
 import com.example.demo.model.Product;
@@ -21,9 +22,9 @@ public class ShippingServiceImpl implements ShippingService {
 
 	@Autowired
 	private ShippingRepository shippingRepository;
-	
+
 	@Autowired
-	private ProductRepository productRepository;
+	private ProductService productService;
 
 	@Override
 	public ShippingDTO getShipment(Long id) {
@@ -51,10 +52,14 @@ public class ShippingServiceImpl implements ShippingService {
 		try {
 			LocalDateTime startDate = getShippingStartDate();
 			LocalDateTime endDate = getShippingEndDate(startDate);
+
 			Shipping shipment = new Shipping(shippingRequestDTO.getUserId(), shippingRequestDTO.getProductId(),
 					startDate, endDate);
-			Product product = productRepository.getById(shippingRequestDTO.getProductId());
-			product.setOrdered(true);
+
+			ProductDTO productDto = productService.getProduct(shippingRequestDTO.getProductId());
+			productDto.setOrdered(true);
+
+			productService.save(productDto);
 			shippingRepository.save(shipment);
 			return true;
 		} catch (Exception e) {

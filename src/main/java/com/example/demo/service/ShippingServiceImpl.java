@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.dto.ShippingDTO;
 import com.example.demo.dto.ShippingRequestDTO;
-import com.example.demo.model.Product;
 import com.example.demo.model.Shipping;
-import com.example.demo.repository.ProductRepository;
 import com.example.demo.repository.ShippingRepository;
 import com.example.demo.utils.Const;
 

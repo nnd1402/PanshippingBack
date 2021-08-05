@@ -26,11 +26,6 @@ public class Const {
 	public static final String FAILED_UPDATE_USER = "Failed to update user";
 	public static final String FAILED_USERNAME_EXISTS = "Username already exists.";
 
-	public static final String SUCCESS_ADD_IMAGE = "Successfully added image";
-	public static final String FAILED_ADD_IMAGE = "Failed to add image";
-	public static final String DELETED_IMAGE = "Successfully deleted image";
-	public static final String NO_IMAGE = "Image doesn't exist in the product.";
-
 	public static final String CREATED_SHIPMENT = "Shipment successfully created";
 	public static final String FAILED_CREATION_SHIPMENT = "Failed to create shipment, please fill in all fields correctly";
 	public static final String NO_SHIPMENT = "Shipment doesn't exist in the database";

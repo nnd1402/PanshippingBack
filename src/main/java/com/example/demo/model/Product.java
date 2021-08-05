@@ -15,8 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.example.demo.dto.ProductDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
@@ -52,7 +50,7 @@ public class Product {
 
 	@Column(name = "Description")
 	private String description;
-	
+
 	@Column(name = "Ordered", insertable = false)
 	private Boolean ordered;
 
@@ -79,15 +77,5 @@ public class Product {
 		this.ordered = productDTO.getOrdered();
 		this.user = productDTO.getUser();
 		this.shipping = productDTO.getShipping();
-	}
-
-	public Product(ProductDTO productDTO, MultipartFile file) {
-		this.id = productDTO.getId();
-		this.name = productDTO.getName();
-		this.price = productDTO.getPrice();
-		this.image = productDTO.getImage();
-		this.quantity = productDTO.getQuantity();
-		this.description = productDTO.getDescription();
-		this.user = productDTO.getUser();
 	}
 }

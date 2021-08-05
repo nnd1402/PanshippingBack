@@ -1,6 +1,5 @@
 package com.example.demo.controllers;
 
-import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.ProductDTO;
 import com.example.demo.service.ProductService;
@@ -113,31 +110,5 @@ public class ProductController {
 			return new ResponseEntity<>(Const.SUCCESS_UPDATE_PRODUCT, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(Const.FAILED_UPDATE_PRODUCT, HttpStatus.BAD_REQUEST);
-	}
-
-	@RequestMapping(value = "/getImage/{id}", method = RequestMethod.GET)
-	ResponseEntity<?> getImageFile(@PathVariable Long id) {
-		ProductDTO product = productService.getProduct(id);
-
-		try {
-			if (product.getImage() == null) {
-				return new ResponseEntity<>(Const.NO_IMAGE, HttpStatus.BAD_REQUEST);
-			}
-
-			String encodedImage = Base64.getEncoder().encodeToString(product.getImage());
-			return new ResponseEntity<>(encodedImage, HttpStatus.OK);
-		} catch (NullPointerException e) {
-			return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
-		}
-	}
-
-	@RequestMapping(method = RequestMethod.PUT, value = "/setImage/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<?> setImage(@PathVariable Long id, @RequestParam("file") MultipartFile file) {
-
-		Boolean success = productService.saveImageFile(id, file);
-		if (success) {
-			return new ResponseEntity<>(Const.SUCCESS_ADD_IMAGE, HttpStatus.OK);
-		}
-		return new ResponseEntity<>(Const.NO_PRODUCT, HttpStatus.BAD_REQUEST);
 	}
 }
